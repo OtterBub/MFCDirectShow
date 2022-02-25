@@ -12,6 +12,8 @@ DirectShow Library Test.
 # To-Do
 2022-02-25
 - Change Resolution
+- Youtube Streamming
+- Edit View Display
 
 # Issue
 2022-02-24
