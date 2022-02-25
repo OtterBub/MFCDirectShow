@@ -78,7 +78,9 @@ HRESULT CDShow::UnInitialize()
 		SAFE_RELEASE(var.second);
 	}
 
-	CoUninitialize();
+	// Warning: dont Uninitialize before RELEASE
+	// -> Error Occur
+	CoUninitialize();	
 
 	return hr;
 }
@@ -95,7 +97,7 @@ HRESULT CDShow::CameraStart()
 	if (m_mapCamDevicesFilter.size() > 0)
 		m_pCurrentCaptureFilter = m_mapCamDevicesFilter.begin()->second;
 	else
-		return S_FALSE;
+		return E_FAIL;
 
 	hr = m_pGraph->AddFilter(m_pCurrentCaptureFilter, NULL);
 	RETURN_FAILD_HRESULT(hr);
@@ -119,7 +121,7 @@ HRESULT CDShow::CameraStart(CString deviceFriendlyName)
 		(m_mapCamDevicesFilter.size() > 0))
 		m_pCurrentCaptureFilter = m_mapCamDevicesFilter.find(deviceFriendlyName)->second;
 	else
-		return S_FALSE;
+		return E_FAIL;
 
 	hr = m_pGraph->AddFilter(m_pCurrentCaptureFilter, NULL);
 	RETURN_FAILD_HRESULT(hr);
@@ -131,7 +133,6 @@ HRESULT CDShow::CameraStart(CString deviceFriendlyName)
 
 	m_pMC->Run();
 	
-
 	return hr;
 }
 
@@ -146,6 +147,73 @@ HRESULT CDShow::CameraStop()
 	// 현재 필터 제거
 	hr = m_pGraph->RemoveFilter(m_pCurrentCaptureFilter);
 	RETURN_FAILD_HRESULT(hr);
+
+	return hr;
+}
+
+HRESULT CDShow::AddCamDeviceResolutionList()
+{
+	HRESULT hr = S_OK;
+
+	// Get Camera Resolution ListBox
+	CListBox *pList = (CListBox*)CListBox::FromHandle(GetDlgItem(m_hWndDraw, IDC_LIST3));
+
+	if (pList) {
+		// Clear Camera Resolution ListBox
+		pList->ResetContent();
+
+		// CaptureBuilder Find Interface IID_IAMStreamConfig
+		IAMStreamConfig *pConfig = NULL;
+		hr = m_pCaptureBuilder->FindInterface(&PIN_CATEGORY_CAPTURE, 0, m_pSelectCaptureFilter, IID_IAMStreamConfig, (void**)&pConfig);
+		RETURN_FAILD_HRESULT(hr);
+
+		int iCount = 0, iSize = 0;
+		hr = pConfig->GetNumberOfCapabilities(&iCount, &iSize);
+
+		if (iSize == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
+			// Add Available Resolution to Listbox
+			for (int i = 0; i < iCount; i++)
+			{
+				VIDEO_STREAM_CONFIG_CAPS vscc;
+				AM_MEDIA_TYPE *pMediaType = NULL;
+				VIDEOINFOHEADER *pVhd = NULL;
+				CString cStrResolution;
+
+				// Get MediaType Info
+				hr = pConfig->GetStreamCaps(i, &pMediaType, (BYTE*)&vscc);
+				RETURN_FAILD_HRESULT(hr);
+
+				// type cast to VIDEOINFOHEADER
+				pVhd = reinterpret_cast<VIDEOINFOHEADER*> (pMediaType->pbFormat);
+				
+				cStrResolution.Format(L"%d x %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight);
+				pList->AddString(cStrResolution);
+
+				// Free MediaType
+				DeleteMediaType(pMediaType);
+			}
+		}
+
+		SAFE_RELEASE(pConfig);
+	}
+
+	return hr;
+}
+
+HRESULT CDShow::SelectCaptureFilter(CString deviceFriendlyName)
+{
+	HRESULT hr = S_OK;
+
+	// 이름에 맞는 필터 서칭
+	if (m_mapCamDevicesFilter.count(deviceFriendlyName) &&
+		(m_mapCamDevicesFilter.size() > 0)) {
+		m_pSelectCaptureFilter = m_mapCamDevicesFilter.find(deviceFriendlyName)->second;
+	}
+	else if ((deviceFriendlyName == L"") && (m_mapCamDevicesFilter.size() > 0)) {
+		m_pSelectCaptureFilter = m_mapCamDevicesFilter.begin()->second;
+	}
+	else
+		return E_FAIL;
 
 	return hr;
 }
@@ -218,4 +286,22 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	staticWindow->GetWindowRect(&rect);
 	
 	return hr;
+}
+
+void CDShow::DeleteMediaType(AM_MEDIA_TYPE *pmt)
+{
+	// FreeFormatBlockForMediaType
+	if (pmt != NULL) {
+		CoTaskMemFree((PVOID)pmt->pbFormat);
+		pmt->cbFormat = 0;
+		pmt->pbFormat = NULL;
+	}
+	if (pmt->pUnk != NULL) {
+		pmt->pUnk->Release();
+		pmt->pUnk = NULL;
+	}
+	
+	if (pmt != NULL) {
+		CoTaskMemFree(pmt);
+	}
 }

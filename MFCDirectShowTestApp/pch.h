@@ -11,6 +11,6 @@
 #include "framework.h"
 #include <afxwin.h>
 
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 
 #endif //PCH_H

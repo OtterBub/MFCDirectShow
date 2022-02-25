@@ -15,12 +15,16 @@
 
 #define RETURN_FAILD_HRESULT(x) \
 {\
-	if (FAILED(x))\
+	if (FAILED(x)) {\
+		TRACE(L"FAILED(x) = 0x%x", x);\
 		return x;\
+	}\
 }
+
 
 class CDShow 
 {
+// ----- Function -----
 public:
 	CDShow();
 	~CDShow();
@@ -42,15 +46,27 @@ public:
 	// Camera Device Capture Stop
 	HRESULT CameraStop();
 
+	// Refresh Resolution List by Current Camera Device
+	HRESULT AddCamDeviceResolutionList();
+
+	// Set SelectFilter by deviceFriendly Name
+	HRESULT SelectCaptureFilter(CString deviceFriendlyName = CString(L""));
 
 protected:
 	HRESULT InitCamDeviceList();
 
 private:
-	
-
 	// Setting VW By WindowHandle
 	HRESULT CameraSetWindow(HWND hViewWindow);
+	void DeleteMediaType(AM_MEDIA_TYPE *pmt);
+
+
+// ----- Member -----
+public:
+
+protected:
+
+private:
 
 	// For Draw Window
 	HWND m_hWndDraw;
@@ -63,7 +79,12 @@ private:
 	IGraphBuilder *m_pGraph;
 	ICaptureGraphBuilder2 *m_pCaptureBuilder;
 	IBaseFilter *m_pVideoCapFilter;
+
+	// Current Capture Filter
 	IBaseFilter *m_pCurrentCaptureFilter;
+
+	// Select Capture Filter on ListBox
+	IBaseFilter *m_pSelectCaptureFilter;
 
 	// CamDevicesList (Friendly Name)
 	std::vector<VARIANT> m_vecCamDevicesList;

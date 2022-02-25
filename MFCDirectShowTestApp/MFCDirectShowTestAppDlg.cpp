@@ -79,6 +79,7 @@ BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT1, &CMFCDirectShowTestAppDlg::OnEnChangeEdit1)
 	ON_LBN_SELCHANGE(IDC_LIST2, &CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList)
 	ON_STN_CLICKED(IDC_STATIC3, &CMFCDirectShowTestAppDlg::OnStnClickedStatic3)
+	ON_LBN_SELCHANGE(IDC_LIST3, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList3)
 END_MESSAGE_MAP()
 
 
@@ -219,14 +220,28 @@ void CMFCDirectShowTestAppDlg::OnEnChangeEdit1()
 void CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList()
 {
 	int index = m_CamList.GetCurSel();
-	m_CamList.GetText(index, m_SelectCamName);	
-	wprintf(L"CamList Index Change: %d\n", index);
-	wprintf(L"Select Cam Name %s\n", m_SelectCamName);
+	if (index < 0)
+		return;
+	
+	m_CamList.GetText(index, m_SelectCamName);
+
+	wprintf(L"CamList Index Change: %d \
+			\nSelect Cam Name %s\n", index, m_SelectCamName);
+
+	wprintf(L"This List Count: %d\n", m_CamList.GetCount());
+	//wprintf(L"Select Cam Name %s\n", m_SelectCamName);
 	// TODO: Add your control notification handler code here
+	m_cdshow.SelectCaptureFilter(m_SelectCamName);
+	m_cdshow.AddCamDeviceResolutionList();
 }
 
 
 void CMFCDirectShowTestAppDlg::OnStnClickedStatic3()
+{
+	// TODO: Add your control notification handler code here
+}
+
+void CMFCDirectShowTestAppDlg::OnLbnSelchangeList3()
 {
 	// TODO: Add your control notification handler code here
 }
