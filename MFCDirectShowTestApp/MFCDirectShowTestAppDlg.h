@@ -53,4 +53,7 @@ public:
 	afx_msg void OnLbnSelchangeCamList();
 	afx_msg void OnStnClickedStatic3();
 	afx_msg void OnLbnSelchangeList3();
+	CStatic m_StaticWnd;
+	afx_msg void OnLbnSelchangeList4();
+	CListBox m_ScaleList;
 };

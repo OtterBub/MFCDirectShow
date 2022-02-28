@@ -65,6 +65,8 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_LIST2, m_CamList);
 	DDX_Control(pDX, IDC_LIST3, m_ResList);
+	DDX_Control(pDX, IDC_STATIC3, m_StaticWnd);
+	DDX_Control(pDX, IDC_LIST4, m_ScaleList);
 }
 
 BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
@@ -80,6 +82,7 @@ BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_LIST2, &CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList)
 	ON_STN_CLICKED(IDC_STATIC3, &CMFCDirectShowTestAppDlg::OnStnClickedStatic3)
 	ON_LBN_SELCHANGE(IDC_LIST3, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList3)
+	ON_LBN_SELCHANGE(IDC_LIST4, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList4)
 END_MESSAGE_MAP()
 
 
@@ -120,6 +123,10 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	//m_cdshow.Initialize(GetDlgItem(IDC_STATIC)->m_hWnd);
 	m_cdshow.Initialize(this->m_hWnd);
 	
+	m_ScaleList.AddString(L"1");
+	m_ScaleList.AddString(L"2");
+	m_ScaleList.AddString(L"3");
+	m_ScaleList.AddString(L"4");
 	m_cdshow.SetResolution();
 	m_cdshow.CameraStart();
 
@@ -165,9 +172,11 @@ void CMFCDirectShowTestAppDlg::OnPaint()
 	else
 	{
 		// Test Draw Rectangle
-		
-		// CPaintDC dc(this); // device context for painting
-		// dc.Rectangle(10, 10, 100, 100);
+
+		CRect ClientRect;
+		CPaintDC dc(this); // device context for painting
+		m_StaticWnd.GetWindowRect(&ClientRect);
+		// dc.FillSolidRect(ClientRect, RGB(254, 254, 254));
 	}
 	CDialogEx::OnPaint();
 }
@@ -262,5 +271,11 @@ void CMFCDirectShowTestAppDlg::OnLbnSelchangeList3()
 	m_SelectRes = strRes;
 
 	// wprintf(L"Select Res: %s\n", m_SelectRes);
+	// TODO: Add your control notification handler code here
+}
+
+
+void CMFCDirectShowTestAppDlg::OnLbnSelchangeList4()
+{
 	// TODO: Add your control notification handler code here
 }

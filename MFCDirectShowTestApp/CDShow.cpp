@@ -10,6 +10,7 @@ CDShow::CDShow()
 	m_pMC = NULL;
 	m_pVW = NULL;
 	m_pME = NULL;
+	m_scale = 1;
 }
 
 CDShow::~CDShow() 
@@ -46,6 +47,7 @@ HRESULT CDShow::Initialize()
 	RETURN_FAILD_HRESULT(hr);
 
 	InitCamDeviceList();
+	SelectCaptureFilter();
 
 	return hr;
 }
@@ -229,6 +231,7 @@ HRESULT CDShow::SetResolution(CString resolution)
 			AM_MEDIA_TYPE *pMediaType = NULL;
 			VIDEOINFOHEADER *pVhd = NULL;
 			CString cStrResolution;
+			bool bSetRes = false;
 
 			// Get MediaType Info
 			hr = pConfig->GetStreamCaps(i, &pMediaType, (BYTE*)&vscc);
@@ -248,28 +251,37 @@ HRESULT CDShow::SetResolution(CString resolution)
 				{
 					// Set MedaiType
 					hr = pConfig->SetFormat(pMediaType);
-					DeleteMediaType(pMediaType);
-					RETURN_FAILD_HRESULT(hr);
 
 					wprintf(L"Set Resolution: %s\n", resolution);
-					break;
+					bSetRes = true;
 				}
 				// Set Default
 				else if ((resolution == L"") && (i == 0)) 
 				{
+					// Set MedaiType
 					hr = pConfig->SetFormat(pMediaType);
-					DeleteMediaType(pMediaType);
-					RETURN_FAILD_HRESULT(hr);
-
+					
 					// If Set Default Resolution Auto Selecting Listbox
 					pList->SelectString(-1, cStrResolution);
 
 					wprintf(L"Set Resolution: Default (%s)\n", cStrResolution);
-					break;
+					bSetRes = true;
 				}
 			}
+			
 			// Free MediaType
 			DeleteMediaType(pMediaType);
+
+			if (bSetRes)
+			{
+				m_CurrentRes.x = pVhd->bmiHeader.biWidth;
+				m_CurrentRes.y = pVhd->bmiHeader.biHeight;
+
+				wprintf(L"m_CurrentRes: %d x %d\n", m_CurrentRes.x, m_CurrentRes.y);
+
+				RETURN_FAILD_HRESULT(hr);
+				break;
+			}
 		}
 	}
 
@@ -277,6 +289,12 @@ HRESULT CDShow::SetResolution(CString resolution)
 	
 
 	return hr;
+}
+
+HRESULT CDShow::SetScale(float scale)
+{
+	m_scale = scale;
+	return E_NOTIMPL;
 }
 
 // ----- protected -----
@@ -336,6 +354,7 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	HRESULT hr = S_OK;
 
 	CRect rect;
+	CPoint viewLeftTopPoint;
 	CWnd *staticWindow;
 	staticWindow = CWnd::FromHandle(hViewWindow);
 	staticWindow->GetClientRect(&rect);
@@ -343,8 +362,20 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	// Window Setting
 	hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
 	hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
-	hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
-	staticWindow->GetWindowRect(&rect);
+	// hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
+
+	if (m_CurrentRes.x > rect.Width()) {
+		m_CurrentRes.x /= 2;
+		m_CurrentRes.y /= 2;
+	}
+
+	m_CurrentRes.x *= m_scale;
+	m_CurrentRes.y *= m_scale;
+	viewLeftTopPoint.x = rect.CenterPoint().x - (m_CurrentRes.x / 2);
+	viewLeftTopPoint.y = rect.CenterPoint().y - (m_CurrentRes.y / 2);
+	hr = m_pVW->SetWindowPosition(viewLeftTopPoint.x, viewLeftTopPoint.y, m_CurrentRes.x, m_CurrentRes.y);
+
+	wprintf(L"CameraSetWindow: %d x %d\n", m_CurrentRes.x, m_CurrentRes.y);
 	
 	return hr;
 }

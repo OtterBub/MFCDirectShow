@@ -54,6 +54,9 @@ public:
 	// Set Resolution By "000 x 000 / 0"
 	HRESULT SetResolution(CString resolution = CString(L""));
 
+	// Set Resolution Scale
+	HRESULT SetScale(float scale);
+
 protected:
 	HRESULT InitCamDeviceList();
 
@@ -77,7 +80,8 @@ private:
 	IVideoWindow *m_pVW;
 	IMediaEventEx *m_pME;
 
-	CRect m_CurrentRes;
+	CPoint m_CurrentRes;
+	float m_scale;
 	
 	// ----- For Capture Camera Device -----
 	IGraphBuilder *m_pGraph;
