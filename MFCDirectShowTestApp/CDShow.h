@@ -40,8 +40,7 @@ public:
 	std::vector<VARIANT> GetCamDeviceList();
 
 	// Camera Device Capture Start
-	HRESULT CameraStart();
-	HRESULT CameraStart(CString deviceFriendlyName);
+	HRESULT CameraStart(CString deviceFriendlyName = CString(L""));
 
 	// Camera Device Capture Stop
 	HRESULT CameraStop();
@@ -52,7 +51,7 @@ public:
 	// Set SelectFilter by deviceFriendly Name
 	HRESULT SelectCaptureFilter(CString deviceFriendlyName = CString(L""));
 
-	// Set Resolution By "000 x 000"
+	// Set Resolution By "000 x 000 / 0"
 	HRESULT SetResolution(CString resolution = CString(L""));
 
 protected:
@@ -77,6 +76,8 @@ private:
 	IMediaControl *m_pMC;
 	IVideoWindow *m_pVW;
 	IMediaEventEx *m_pME;
+
+	CRect m_CurrentRes;
 	
 	// ----- For Capture Camera Device -----
 	IGraphBuilder *m_pGraph;
@@ -91,6 +92,7 @@ private:
 
 	// CamDevicesList (Friendly Name)
 	std::vector<VARIANT> m_vecCamDevicesList;
+
 	// CamDevices Filter (key is Friendly Name)
 	std::map<CString, IBaseFilter*> m_mapCamDevicesFilter;
 

@@ -90,34 +90,18 @@ std::vector<VARIANT> CDShow::GetCamDeviceList()
 	return m_vecCamDevicesList;
 }
 
-HRESULT CDShow::CameraStart()
-{
-	HRESULT hr = S_OK;
-
-	if (m_mapCamDevicesFilter.size() > 0)
-		m_pCurrentCaptureFilter = m_mapCamDevicesFilter.begin()->second;
-	else
-		return E_FAIL;
-
-	hr = m_pGraph->AddFilter(m_pCurrentCaptureFilter, NULL);
-	RETURN_FAILD_HRESULT(hr);
-
-	hr = m_pCaptureBuilder->RenderStream(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pCurrentCaptureFilter, NULL, NULL);
-	RETURN_FAILD_HRESULT(hr);
-
-	CameraSetWindow(GetDlgItem(m_hWndDraw, IDC_STATIC3));
-	
-	m_pMC->Run();
-
-	return hr;
-}
-
 HRESULT CDShow::CameraStart(CString deviceFriendlyName)
 {
 	HRESULT hr = S_OK;
 
-	// 이름에 맞는 필터 서칭
-	if (m_mapCamDevicesFilter.count(deviceFriendlyName) &&
+	
+	// If L""
+	if (deviceFriendlyName == L"" &&
+		(m_mapCamDevicesFilter.size() > 0)) {
+		m_pCurrentCaptureFilter = m_mapCamDevicesFilter.begin()->second;
+	}
+	// Searching By deviceFriendlyName
+	else if (m_mapCamDevicesFilter.count(deviceFriendlyName) &&
 		(m_mapCamDevicesFilter.size() > 0))
 		m_pCurrentCaptureFilter = m_mapCamDevicesFilter.find(deviceFriendlyName)->second;
 	else

@@ -119,6 +119,8 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	// DirectShow Init
 	//m_cdshow.Initialize(GetDlgItem(IDC_STATIC)->m_hWnd);
 	m_cdshow.Initialize(this->m_hWnd);
+	
+	m_cdshow.SetResolution();
 	m_cdshow.CameraStart();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
