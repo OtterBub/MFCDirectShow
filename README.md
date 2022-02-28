@@ -16,6 +16,9 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do
+2022-02-28
+- Refresh Camera List When Connecting a USB Camera
+
 2022-02-25
 - Change Resolution
 - Youtube Streamming
