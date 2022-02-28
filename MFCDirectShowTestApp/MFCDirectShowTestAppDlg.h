@@ -35,10 +35,15 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 
-	bool mfirstCreate;
-	CStatic m_staticPicture;
+	
+	// DirectShow Class
 	CDShow m_cdshow;
+	
+	// ListBox
+	CListBox m_ResList;
 	CListBox m_CamList;
+
+	// Current Select String (ListBox)
 	CString m_SelectCamName;
 	CString m_SelectRes;
 public:
@@ -48,5 +53,4 @@ public:
 	afx_msg void OnLbnSelchangeCamList();
 	afx_msg void OnStnClickedStatic3();
 	afx_msg void OnLbnSelchangeList3();
-	CListBox m_ResList;
 };

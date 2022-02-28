@@ -183,12 +183,16 @@ HRESULT CDShow::AddCamDeviceResolutionList()
 				hr = pConfig->GetStreamCaps(i, &pMediaType, (BYTE*)&vscc);
 				RETURN_FAILD_HRESULT(hr);
 
-				// type cast to VIDEOINFOHEADER
-				pVhd = reinterpret_cast<VIDEOINFOHEADER*> (pMediaType->pbFormat);
-				
-				cStrResolution.Format(L"%d x %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight);
-				pList->AddString(cStrResolution);
+				// if Video Type
+				if (pMediaType->majortype == MEDIATYPE_Video &&
+					pMediaType->formattype == FORMAT_VideoInfo) {
+					// type cast to VIDEOINFOHEADER
+					pVhd = reinterpret_cast<VIDEOINFOHEADER*> (pMediaType->pbFormat);
 
+					// Add Resolution String to ListBox
+					cStrResolution.Format(L"%d x %d / %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight, i);
+					pList->AddString(cStrResolution);
+				}
 				// Free MediaType
 				DeleteMediaType(pMediaType);
 			}
@@ -222,6 +226,9 @@ HRESULT CDShow::SetResolution(CString resolution)
 {
 	HRESULT hr = S_OK;
 	
+	// Get Camera Resolution ListBox
+	CListBox *pList = (CListBox*)CListBox::FromHandle(GetDlgItem(m_hWndDraw, IDC_LIST3));
+
 	// CaptureBuilder Find Interface IID_IAMStreamConfig
 	IAMStreamConfig *pConfig = NULL;
 	hr = m_pCaptureBuilder->FindInterface(&PIN_CATEGORY_CAPTURE, 0, m_pSelectCaptureFilter, IID_IAMStreamConfig, (void**)&pConfig);
@@ -246,20 +253,37 @@ HRESULT CDShow::SetResolution(CString resolution)
 			// type cast to VIDEOINFOHEADER
 			pVhd = reinterpret_cast<VIDEOINFOHEADER*> (pMediaType->pbFormat);
 
-			cStrResolution.Format(L"%d x %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight);
+			cStrResolution.Format(L"%d x %d / %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight, i);
 			
-			// If Select Resolution Equal MediaType Resolution
-			if (0 == StrCmpW(resolution, cStrResolution)) 
+			// if Video Type
+			if (pMediaType->majortype == MEDIATYPE_Video &&
+				pMediaType->formattype == FORMAT_VideoInfo)
 			{
-				// Set MedaiType
-				hr = pConfig->SetFormat(pMediaType);
-				DeleteMediaType(pMediaType);
-				RETURN_FAILD_HRESULT(hr);
+				// If Select Resolution Equal MediaType Resolution
+				if (0 == StrCmpW(resolution, cStrResolution))
+				{
+					// Set MedaiType
+					hr = pConfig->SetFormat(pMediaType);
+					DeleteMediaType(pMediaType);
+					RETURN_FAILD_HRESULT(hr);
 
-				wprintf(L"Set Resolution: %s\n", resolution);
-				break;
+					wprintf(L"Set Resolution: %s\n", resolution);
+					break;
+				}
+				// Set Default
+				else if ((resolution == L"") && (i == 0)) 
+				{
+					hr = pConfig->SetFormat(pMediaType);
+					DeleteMediaType(pMediaType);
+					RETURN_FAILD_HRESULT(hr);
+
+					// If Set Default Resolution Auto Selecting Listbox
+					pList->SelectString(-1, cStrResolution);
+
+					wprintf(L"Set Resolution: Default (%s)\n", cStrResolution);
+					break;
+				}
 			}
-
 			// Free MediaType
 			DeleteMediaType(pMediaType);
 		}

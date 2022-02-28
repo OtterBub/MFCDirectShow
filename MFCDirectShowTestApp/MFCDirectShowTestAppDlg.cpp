@@ -57,7 +57,6 @@ CMFCDirectShowTestAppDlg::CMFCDirectShowTestAppDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCDIRECTSHOWTESTAPP_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	mfirstCreate = TRUE;
 }
 
 void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
@@ -120,7 +119,7 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	// DirectShow Init
 	//m_cdshow.Initialize(GetDlgItem(IDC_STATIC)->m_hWnd);
 	m_cdshow.Initialize(this->m_hWnd);
-
+	m_cdshow.CameraStart();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -144,11 +143,6 @@ void CMFCDirectShowTestAppDlg::OnSysCommand(UINT nID, LPARAM lParam)
 
 void CMFCDirectShowTestAppDlg::OnPaint()
 {
-	if (mfirstCreate)
-	{	
-		mfirstCreate = FALSE;
-		m_cdshow.CameraStart();
-	}
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // device context for painting
@@ -168,10 +162,12 @@ void CMFCDirectShowTestAppDlg::OnPaint()
 	}
 	else
 	{
-		CPaintDC dc(this); // device context for painting
-		dc.Rectangle(10, 10, 100, 100);
-		CDialogEx::OnPaint();
+		// Test Draw Rectangle
+		
+		// CPaintDC dc(this); // device context for painting
+		// dc.Rectangle(10, 10, 100, 100);
 	}
+	CDialogEx::OnPaint();
 }
 
 afx_msg void CMFCDirectShowTestAppDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -195,7 +191,13 @@ HCURSOR CMFCDirectShowTestAppDlg::OnQueryDragIcon()
 void CMFCDirectShowTestAppDlg::OnBnClickedApply()
 {
 	m_cdshow.CameraStop();
-	m_cdshow.SetResolution(m_SelectRes);
+
+	int index = m_ResList.GetCurSel();
+	// if index < 0, Set Default Resolution
+	if (index < 0) 
+		m_cdshow.SetResolution();
+	else 
+		m_cdshow.SetResolution(m_SelectRes);
 	
 	m_cdshow.CameraStart(m_SelectCamName);
 	// CDialogEx::OnOK();
@@ -228,11 +230,12 @@ void CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList()
 	
 	m_CamList.GetText(index, m_SelectCamName);
 
-	wprintf(L"CamList Index Change: %d \
-			\nSelect Cam Name %s\n", index, m_SelectCamName);
+	// wprintf(L"CamList Index Change: %d \
+	// 		\nSelect Cam Name %s\n", index, m_SelectCamName);
+	// 
+	// wprintf(L"This List Count: %d\n", m_CamList.GetCount());
+	// wprintf(L"Select Cam Name %s\n", m_SelectCamName);
 
-	wprintf(L"This List Count: %d\n", m_CamList.GetCount());
-	//wprintf(L"Select Cam Name %s\n", m_SelectCamName);
 	// TODO: Add your control notification handler code here
 	m_cdshow.SelectCaptureFilter(m_SelectCamName);
 	m_cdshow.AddCamDeviceResolutionList();
@@ -255,6 +258,7 @@ void CMFCDirectShowTestAppDlg::OnLbnSelchangeList3()
 	m_ResList.GetText(index, strRes);
 
 	m_SelectRes = strRes;
-	wprintf(L"Select Res: %s\n", m_SelectRes);
+
+	// wprintf(L"Select Res: %s\n", m_SelectRes);
 	// TODO: Add your control notification handler code here
 }
