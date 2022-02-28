@@ -52,6 +52,9 @@ public:
 	// Set SelectFilter by deviceFriendly Name
 	HRESULT SelectCaptureFilter(CString deviceFriendlyName = CString(L""));
 
+	// Set Resolution By "000 x 000"
+	HRESULT SetResolution(CString resolution = CString(L""));
+
 protected:
 	HRESULT InitCamDeviceList();
 

@@ -40,6 +40,7 @@ protected:
 	CDShow m_cdshow;
 	CListBox m_CamList;
 	CString m_SelectCamName;
+	CString m_SelectRes;
 public:
 	afx_msg void OnBnClickedApply();
 	afx_msg void OnBnClickedCancel();
@@ -47,4 +48,5 @@ public:
 	afx_msg void OnLbnSelchangeCamList();
 	afx_msg void OnStnClickedStatic3();
 	afx_msg void OnLbnSelchangeList3();
+	CListBox m_ResList;
 };

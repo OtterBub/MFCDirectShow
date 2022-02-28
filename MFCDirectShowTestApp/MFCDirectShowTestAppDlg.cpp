@@ -65,6 +65,7 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_LIST2, m_CamList);
+	DDX_Control(pDX, IDC_LIST3, m_ResList);
 }
 
 BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
@@ -194,6 +195,8 @@ HCURSOR CMFCDirectShowTestAppDlg::OnQueryDragIcon()
 void CMFCDirectShowTestAppDlg::OnBnClickedApply()
 {
 	m_cdshow.CameraStop();
+	m_cdshow.SetResolution(m_SelectRes);
+	
 	m_cdshow.CameraStart(m_SelectCamName);
 	// CDialogEx::OnOK();
 }
@@ -243,5 +246,15 @@ void CMFCDirectShowTestAppDlg::OnStnClickedStatic3()
 
 void CMFCDirectShowTestAppDlg::OnLbnSelchangeList3()
 {
+	int index = m_ResList.GetCurSel();
+	CString strRes;
+
+	if (index < 0)
+		return;
+	
+	m_ResList.GetText(index, strRes);
+
+	m_SelectRes = strRes;
+	wprintf(L"Select Res: %s\n", m_SelectRes);
 	// TODO: Add your control notification handler code here
 }

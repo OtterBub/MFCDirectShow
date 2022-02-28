@@ -218,6 +218,59 @@ HRESULT CDShow::SelectCaptureFilter(CString deviceFriendlyName)
 	return hr;
 }
 
+HRESULT CDShow::SetResolution(CString resolution)
+{
+	HRESULT hr = S_OK;
+	
+	// CaptureBuilder Find Interface IID_IAMStreamConfig
+	IAMStreamConfig *pConfig = NULL;
+	hr = m_pCaptureBuilder->FindInterface(&PIN_CATEGORY_CAPTURE, 0, m_pSelectCaptureFilter, IID_IAMStreamConfig, (void**)&pConfig);
+	RETURN_FAILD_HRESULT(hr);
+
+	int iCount = 0, iSize = 0;
+	hr = pConfig->GetNumberOfCapabilities(&iCount, &iSize);
+
+	if (iSize == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
+		// Add Available Resolution to Listbox
+		for (int i = 0; i < iCount; i++)
+		{
+			VIDEO_STREAM_CONFIG_CAPS vscc;
+			AM_MEDIA_TYPE *pMediaType = NULL;
+			VIDEOINFOHEADER *pVhd = NULL;
+			CString cStrResolution;
+
+			// Get MediaType Info
+			hr = pConfig->GetStreamCaps(i, &pMediaType, (BYTE*)&vscc);
+			RETURN_FAILD_HRESULT(hr);
+
+			// type cast to VIDEOINFOHEADER
+			pVhd = reinterpret_cast<VIDEOINFOHEADER*> (pMediaType->pbFormat);
+
+			cStrResolution.Format(L"%d x %d", pVhd->bmiHeader.biWidth, pVhd->bmiHeader.biHeight);
+			
+			// If Select Resolution Equal MediaType Resolution
+			if (0 == StrCmpW(resolution, cStrResolution)) 
+			{
+				// Set MedaiType
+				hr = pConfig->SetFormat(pMediaType);
+				DeleteMediaType(pMediaType);
+				RETURN_FAILD_HRESULT(hr);
+
+				wprintf(L"Set Resolution: %s\n", resolution);
+				break;
+			}
+
+			// Free MediaType
+			DeleteMediaType(pMediaType);
+		}
+	}
+
+	SAFE_RELEASE(pConfig);
+	
+
+	return hr;
+}
+
 // ----- protected -----
 HRESULT CDShow::InitCamDeviceList()
 {
