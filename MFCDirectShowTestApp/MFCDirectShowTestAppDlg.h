@@ -49,7 +49,7 @@ protected:
 	// Current Select String (ListBox)
 	CString m_SelectCamName;
 	CString m_SelectRes;
-	CButton m_CBitmapBtn;
+	CBitmapButton m_CBitmapBtn;
 	CEdit m_ReadReg;
 
 public:

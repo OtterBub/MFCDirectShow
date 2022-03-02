@@ -68,7 +68,7 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC3, m_StaticWnd);
 	DDX_Control(pDX, IDC_LIST4, m_ScaleList);
 	// DDX_Control(pDX, IDOK_APPLY, m_BitBtnApply);
-	// DDX_Control(pDX, IDC_BUTTON1, m_CBitmapBtn);
+	DDX_Control(pDX, IDC_BUTTON1, m_CBitmapBtn);
 	DDX_Control(pDX, IDC_EDIT1, m_ReadReg);
 }
 
@@ -122,8 +122,8 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	// LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
-	// m_BitBtnApply.LoadBitmaps(IDB_PNG1);
+	LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
+	m_CBitmapBtn.LoadBitmaps(IDB_BITMAP2);
 
 	m_ReadReg.SetSel(0, 0);
 	m_ReadReg.ReplaceSel(CString(L"Hello World"));

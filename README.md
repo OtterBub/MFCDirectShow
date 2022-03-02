@@ -33,7 +33,7 @@ DirectShow Library Test.
 2022-03-02
 - [ ] Load DLL
 - [ ] Load Image by Load DLL
-- [ ] Draw Image Button
+- [x] Draw Image Button
 - [ ] Read Registry
 
 2022-02-28
