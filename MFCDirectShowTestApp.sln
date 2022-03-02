@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1800
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCDirectShowTestApp", "MFCDirectShowTestApp\MFCDirectShowTestApp.vcxproj", "{319A2B0D-1FFF-43CF-A99E-7C7947E7CD70}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageDLL", "ImageDLL\ImageDLL.vcxproj", "{094955F6-D1E3-43A0-B9D9-C331E1548E0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{319A2B0D-1FFF-43CF-A99E-7C7947E7CD70}.Release|x64.Build.0 = Release|x64
 		{319A2B0D-1FFF-43CF-A99E-7C7947E7CD70}.Release|x86.ActiveCfg = Release|Win32
 		{319A2B0D-1FFF-43CF-A99E-7C7947E7CD70}.Release|x86.Build.0 = Release|Win32
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Debug|x64.ActiveCfg = Debug|x64
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Debug|x64.Build.0 = Debug|x64
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Debug|x86.ActiveCfg = Debug|Win32
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Debug|x86.Build.0 = Debug|Win32
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Release|x64.ActiveCfg = Release|x64
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Release|x64.Build.0 = Release|x64
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Release|x86.ActiveCfg = Release|Win32
+		{094955F6-D1E3-43A0-B9D9-C331E1548E0B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -294,7 +294,7 @@ HRESULT CDShow::SetResolution(CString resolution)
 HRESULT CDShow::SetScale(float scale)
 {
 	m_scale = scale;
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 // ----- protected -----
@@ -365,8 +365,7 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	// hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
 
 	if (m_CurrentRes.x > rect.Width()) {
-		m_CurrentRes.x /= 2;
-		m_CurrentRes.y /= 2;
+		m_scale = 0.5;
 	}
 
 	m_CurrentRes.x *= m_scale;

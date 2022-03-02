@@ -122,11 +122,13 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	// DirectShow Init
 	//m_cdshow.Initialize(GetDlgItem(IDC_STATIC)->m_hWnd);
 	m_cdshow.Initialize(this->m_hWnd);
-	
+
+	m_ScaleList.AddString(L"0.5");
 	m_ScaleList.AddString(L"1");
 	m_ScaleList.AddString(L"2");
 	m_ScaleList.AddString(L"3");
 	m_ScaleList.AddString(L"4");
+
 	m_cdshow.SetResolution();
 	m_cdshow.CameraStart();
 
@@ -278,4 +280,13 @@ void CMFCDirectShowTestAppDlg::OnLbnSelchangeList3()
 void CMFCDirectShowTestAppDlg::OnLbnSelchangeList4()
 {
 	// TODO: Add your control notification handler code here
+	int index = m_ScaleList.GetCurSel();
+	CString strMult;
+
+	if (index < 0)
+		return;
+
+	m_ScaleList.GetText(index, strMult);
+
+	m_cdshow.SetScale(_tstof(strMult));
 }
