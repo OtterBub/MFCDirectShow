@@ -5,6 +5,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-02
+- Add Resolution Scale
+- Add DLL Project (Add For Image to main project)
+
 2022-02-28.3
 - View Position is Center
 - Add View Scale Menu
@@ -33,9 +37,13 @@ DirectShow Library Test.
 - [x] Display Webcam by DirectShow Library - Done
 
 ## To-Do (Minor)
+2022-03-02
+- [ ] Add Image from Import DLL
+- [ ] Load Registry Value
+
 2022-02-28
-- [ ] View Scale Menu
-- [ ] if Change Resolution, Resize Display View
+- [x] View Scale Menu
+- [x] if Change Resolution, Resize Display View
 - [ ] Can Display Resolution Filetering on Resolution Listbox
 
 2022-02-25
