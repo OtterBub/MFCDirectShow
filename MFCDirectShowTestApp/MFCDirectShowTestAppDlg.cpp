@@ -67,6 +67,9 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST3, m_ResList);
 	DDX_Control(pDX, IDC_STATIC3, m_StaticWnd);
 	DDX_Control(pDX, IDC_LIST4, m_ScaleList);
+	// DDX_Control(pDX, IDOK_APPLY, m_BitBtnApply);
+	// DDX_Control(pDX, IDC_BUTTON1, m_CBitmapBtn);
+	DDX_Control(pDX, IDC_EDIT1, m_ReadReg);
 }
 
 BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
@@ -76,13 +79,14 @@ BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
 	ON_WM_KEYDOWN()
 	ON_WM_KEYUP()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDOK, &CMFCDirectShowTestAppDlg::OnBnClickedApply)
+	//ON_BN_CLICKED(IDOK_APPLY, &CMFCDirectShowTestAppDlg::OnBnClickedApply)
 	ON_BN_CLICKED(IDCANCEL, &CMFCDirectShowTestAppDlg::OnBnClickedCancel)
 	ON_EN_CHANGE(IDC_EDIT1, &CMFCDirectShowTestAppDlg::OnEnChangeEdit1)
 	ON_LBN_SELCHANGE(IDC_LIST2, &CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList)
 	ON_STN_CLICKED(IDC_STATIC3, &CMFCDirectShowTestAppDlg::OnStnClickedStatic3)
 	ON_LBN_SELCHANGE(IDC_LIST3, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList3)
 	ON_LBN_SELCHANGE(IDC_LIST4, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList4)
+	ON_BN_CLICKED(IDC_BUTTON1, &CMFCDirectShowTestAppDlg::OnBnClickedApply)
 END_MESSAGE_MAP()
 
 
@@ -118,17 +122,21 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	
-	// DirectShow Init
-	//m_cdshow.Initialize(GetDlgItem(IDC_STATIC)->m_hWnd);
-	m_cdshow.Initialize(this->m_hWnd);
+	// LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
+	// m_BitBtnApply.LoadBitmaps(IDB_PNG1);
 
+	m_ReadReg.SetSel(0, 0);
+	m_ReadReg.ReplaceSel(CString(L"Hello World"));
+
+	// Add List to ScaleBox
 	m_ScaleList.AddString(L"0.5");
 	m_ScaleList.AddString(L"1");
 	m_ScaleList.AddString(L"2");
 	m_ScaleList.AddString(L"3");
 	m_ScaleList.AddString(L"4");
 
+	// Init DirectShow 
+	m_cdshow.Initialize(this->m_hWnd);
 	m_cdshow.SetResolution();
 	m_cdshow.CameraStart();
 
@@ -289,4 +297,11 @@ void CMFCDirectShowTestAppDlg::OnLbnSelchangeList4()
 	m_ScaleList.GetText(index, strMult);
 
 	m_cdshow.SetScale(_tstof(strMult));
+}
+
+
+void CMFCDirectShowTestAppDlg::OnBnClickedButton1()
+{
+	// TODO: Add your control notification handler code here
+	CMFCDirectShowTestAppDlg::OnBnClickedApply();
 }

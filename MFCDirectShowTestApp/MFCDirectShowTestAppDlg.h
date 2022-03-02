@@ -49,6 +49,8 @@ protected:
 	// Current Select String (ListBox)
 	CString m_SelectCamName;
 	CString m_SelectRes;
+	CButton m_CBitmapBtn;
+	CEdit m_ReadReg;
 
 public:
 	afx_msg void OnBnClickedApply();
@@ -58,4 +60,5 @@ public:
 	afx_msg void OnStnClickedStatic3();
 	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnLbnSelchangeList4();
+	afx_msg void OnBnClickedButton1();
 };

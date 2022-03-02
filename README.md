@@ -5,7 +5,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
-2022-03-02
+2022-03-02.2
+- Add View Text Control Read Registry Value
+
+2022-03-02.1
 - Add Resolution Scale
 - Add DLL Project (Add For Image to main project)
 
@@ -27,6 +30,12 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-02
+- [ ] Load DLL
+- [ ] Load Image by Load DLL
+- [ ] Draw Image Button
+- [ ] Read Registry
+
 2022-02-28
 - [ ] Refresh Camera List When Connecting a USB Camera
 
@@ -51,6 +60,9 @@ DirectShow Library Test.
 - [ ] Edit View Display
 
 # Issue
+2022-03-02
+- [ ] Don't working scale menu on Hight Width Resolution
+
 2022-02-28
 - [ ] Some Resolution Don't working
 - [x] FaceTime HD Camera (Build-in) / (1280 x 720) don't Display (but Camera is Working) - Same have issue on OBS Studio
