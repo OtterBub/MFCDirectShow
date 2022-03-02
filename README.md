@@ -17,7 +17,7 @@ DirectShow Library Test.
 - Add View Scale Menu
 
 2022-02-28.2
-- if dont select resolution, Auto Selest ListBox
+- if dont select resolution, Auto Select ListBox
 
 2022-02-28.1
 - Add Change Resolution Function (CDShow::SetResolution)
