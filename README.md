@@ -5,6 +5,9 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-03.3
+- Build KoLang.DLL (For Support Other Language Test)
+
 2022-03-03.2
 - Get Current Directory, Load DLL File
 
