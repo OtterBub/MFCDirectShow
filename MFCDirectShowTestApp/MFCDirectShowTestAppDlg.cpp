@@ -150,30 +150,30 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	AfxSetResourceHandle(currentInst);
 
 	// Read RegKey Value Test
-	HKEY key;
-	TCHAR act[MAX_PATH];
-	DWORD dwBufSize = 0;
-	LONG lResult = 0;
-
-	lResult = RegOpenKeyEx(HKEY_CURRENT_USER, _T("SOFTWARE\\VIDBOX\\VHStoDVD11"), NULL, KEY_READ, &key);
-	if (ERROR_SUCCESS == lResult) {
-		AfxMessageBox(_T("OPEN SUCCESS"));
-	}
-	else {
-		AfxMessageBox(_T("OPEN FAIL"));
-	}
-
-	ZeroMemory(act, sizeof(act));
-	lResult = RegQueryValueEx(key, _T("dwStart_new"), NULL, NULL, (LPBYTE)act, &dwBufSize);
-	if (ERROR_SUCCESS == lResult) {
-		AfxMessageBox(_T("READ SUCCESS"));
-	}
-	else {
-		AfxMessageBox(_T("READ FAIL"));
-	}
-
+	
 	CString regVal;
-	regVal.Format(_T("%s"), act);
+
+	// Registry CRegKey Test
+	CRegKey regKey;
+	TCHAR strVal[MAX_PATH] = { 0, };
+	ULONG uValChar = _countof(strVal);
+	LSTATUS lsResult;
+
+	
+	if (regKey.Open(HKEY_CURRENT_USER, _T("SOFTWARE\\VIDBOX\\VHStoDVD11")) == ERROR_SUCCESS) {
+		
+		lsResult = regKey.QueryStringValue(_T("installdate"), strVal, &uValChar);
+		
+		if (lsResult == ERROR_SUCCESS) {
+			 regVal.Format(_T("%s"), strVal);
+		}
+		else {
+			regVal.Format(_T("READ FAIL"));
+		}
+	}
+	else {
+		regVal.Format(_T("OPEN FAIL"));
+	}
 
 	m_ReadReg.SetSel(0, 0);
 	// m_ReadReg.ReplaceSel(CString(L"Hello World"));
@@ -272,6 +272,8 @@ void CMFCDirectShowTestAppDlg::OnBnClickedApply()
 		m_cdshow.SetResolution(m_SelectRes);
 	
 	m_cdshow.CameraStart(m_SelectCamName);
+
+	// Dont return IDOK
 	// CDialogEx::OnOK();
 }
 

@@ -5,6 +5,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-03
+- Apply Button Load Image by Load DLL
+- Read Registry
+
 2022-03-02.2
 - Add View Text Control Read Registry Value
 
@@ -31,10 +35,8 @@ DirectShow Library Test.
 
 # To-Do (Important)
 2022-03-02
-- [ ] Load DLL
-- [ ] Load Image by Load DLL
-- [x] Draw Image Button
-- [ ] Read Registry
+- [x] Load Image by Load DLL - Done
+- [x] Read Registry - Done
 
 2022-02-28
 - [ ] Refresh Camera List When Connecting a USB Camera
@@ -46,13 +48,9 @@ DirectShow Library Test.
 - [x] Display Webcam by DirectShow Library - Done
 
 ## To-Do (Minor)
-2022-03-02
-- [ ] Add Image from Import DLL
-- [ ] Load Registry Value
-
 2022-02-28
-- [x] View Scale Menu
-- [x] if Change Resolution, Resize Display View
+- [x] View Scale Menu - Done
+- [x] if Change Resolution, Resize Display View - Done
 - [ ] Can Display Resolution Filetering on Resolution Listbox
 
 2022-02-25
@@ -61,7 +59,7 @@ DirectShow Library Test.
 
 # Issue
 2022-03-02
-- [ ] Don't working scale menu on Hight Width Resolution
+- [x] Don't working scale menu on Hight Width Resolution (Fixed)
 
 2022-02-28
 - [ ] Some Resolution Don't working

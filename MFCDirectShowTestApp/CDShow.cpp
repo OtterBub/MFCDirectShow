@@ -364,9 +364,9 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
 	// hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
 
-	if (m_CurrentRes.x > rect.Width()) {
-		m_scale = 0.5;
-	}
+	// if (m_CurrentRes.x > rect.Width()) {
+	// 	m_scale = 0.5;
+	// }
 
 	m_CurrentRes.x *= m_scale;
 	m_CurrentRes.y *= m_scale;

@@ -72,25 +72,15 @@ BOOL CMFCDirectShowTestApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 	CMFCDirectShowTestAppDlg dlg;
-	m_pMainWnd = &dlg;
 	
 	INT_PTR nResponse = dlg.DoModal();
 
 	
-	// TestDirectShow(dlg.m_hWnd);
 	if (nResponse == IDOK)
 	{
-		AfxMessageBox(_T("START TEST by Read File"), MB_OK);
-
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
 	}
 	else if (nResponse == IDCANCEL)
 	{
-		AfxMessageBox(_T("START TEST by Camera"), MB_OK);
-
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
 	}
 	else if (nResponse == -1)
 	{

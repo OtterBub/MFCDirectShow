@@ -63,6 +63,8 @@ protected:
 private:
 	// Setting VW By WindowHandle
 	HRESULT CameraSetWindow(HWND hViewWindow);
+
+	// DeleteMediaType for Get Device Property
 	void DeleteMediaType(AM_MEDIA_TYPE *pmt);
 
 
