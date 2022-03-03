@@ -49,6 +49,31 @@ BOOL CMFCDirectShowTestApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
+	// Lang DLL Test Line
+	// Load DLL Image Test
+	TCHAR buff[MAX_PATH];
+
+	// Load DLL
+	HINSTANCE hInst, currentInst;
+	CString cstrPath;
+	TCHAR path[MAX_PATH] = { 0, };
+
+	// Get Current Hinstance
+	currentInst = AfxGetResourceHandle();
+
+	// Get Directory by Current Execute File
+	GetModuleFileName(currentInst, path, MAX_PATH);
+	PathRemoveFileSpec(path);
+	cstrPath.SetString(path);
+
+	// Load ImageDLL.dll
+	cstrPath.Append(L"\\KoLangDll.dll");
+	hInst = LoadLibrary(cstrPath);
+
+	// Set DLL Resource
+	if (hInst)
+		AfxSetResourceHandle(hInst);
+
 	CWinApp::InitInstance();
 
 

@@ -70,6 +70,7 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 	// DDX_Control(pDX, IDOK_APPLY, m_BitBtnApply);
 	DDX_Control(pDX, IDC_BUTTON1, m_CBitmapBtn);
 	DDX_Control(pDX, IDC_EDIT1, m_ReadReg);
+	
 }
 
 BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
@@ -79,7 +80,6 @@ BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
 	ON_WM_KEYDOWN()
 	ON_WM_KEYUP()
 	ON_WM_QUERYDRAGICON()
-	//ON_BN_CLICKED(IDOK_APPLY, &CMFCDirectShowTestAppDlg::OnBnClickedApply)
 	ON_BN_CLICKED(IDCANCEL, &CMFCDirectShowTestAppDlg::OnBnClickedCancel)
 	ON_EN_CHANGE(IDC_EDIT1, &CMFCDirectShowTestAppDlg::OnEnChangeEdit1)
 	ON_LBN_SELCHANGE(IDC_LIST2, &CMFCDirectShowTestAppDlg::OnLbnSelchangeCamList)

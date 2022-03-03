@@ -5,7 +5,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
-2022-03-03
+2022-03-03.2
+- Get Current Directory, Load DLL File
+
+2022-03-03.1
 - Apply Button Load Image by Load DLL
 - Read Registry
 
@@ -35,7 +38,7 @@ DirectShow Library Test.
 
 # To-Do (Important)
 2022-03-03
-- [ ] Button Multi Image (Mouse Over, Mouse Click)
+- [ ] Load Support Other Language (by DLL)
 
 2022-03-02
 - [x] Load Image by Load DLL - Done
@@ -51,6 +54,9 @@ DirectShow Library Test.
 - [x] Display Webcam by DirectShow Library - Done
 
 ## To-Do (Minor)
+2022-03-03
+- [ ] Button Multi Image (Mouse Over, Mouse Click)
+
 2022-02-28
 - [x] View Scale Menu - Done
 - [x] if Change Resolution, Resize Display View - Done
@@ -61,6 +67,10 @@ DirectShow Library Test.
 - [ ] Edit View Display
 
 # Issue
+2022-03-03
+- [ ] if Change Resolution Big to Small, BackGround Issue Occur.
+- [ ] Change Resolution, Memory leak Issue occur
+
 2022-03-02
 - [x] Don't working scale menu on Hight Width Resolution (Fixed)
 
