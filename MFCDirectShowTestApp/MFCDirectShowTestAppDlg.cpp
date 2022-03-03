@@ -122,11 +122,62 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
-	m_CBitmapBtn.LoadBitmaps(IDB_BITMAP2);
+	
+	// Load DLL Image Test
+	TCHAR buff[MAX_PATH];
+	
+	// Load DLL
+	HINSTANCE hInst, currentInst;
+
+	hInst = LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
+
+	// Set DLL Resource
+	currentInst = AfxGetResourceHandle();
+	AfxSetResourceHandle(hInst);
+
+	// Load Png - dont working
+	CPngImage pngimg;
+	HBITMAP hbmp;
+	BOOL result;
+	result = pngimg.Load(IDB_PNG1, hInst);
+
+	// Set DLL Image on Button
+	// m_CBitmapBtn.LoadBitmaps(IDB_PNG1); // dont working
+	
+	m_CBitmapBtn.LoadBitmaps(IDB_BITMAP1);
+	
+	// Return Origin Instance
+	AfxSetResourceHandle(currentInst);
+
+	// Read RegKey Value Test
+	HKEY key;
+	TCHAR act[MAX_PATH];
+	DWORD dwBufSize = 0;
+	LONG lResult = 0;
+
+	lResult = RegOpenKeyEx(HKEY_CURRENT_USER, _T("SOFTWARE\\VIDBOX\\VHStoDVD11"), NULL, KEY_READ, &key);
+	if (ERROR_SUCCESS == lResult) {
+		AfxMessageBox(_T("OPEN SUCCESS"));
+	}
+	else {
+		AfxMessageBox(_T("OPEN FAIL"));
+	}
+
+	ZeroMemory(act, sizeof(act));
+	lResult = RegQueryValueEx(key, _T("dwStart_new"), NULL, NULL, (LPBYTE)act, &dwBufSize);
+	if (ERROR_SUCCESS == lResult) {
+		AfxMessageBox(_T("READ SUCCESS"));
+	}
+	else {
+		AfxMessageBox(_T("READ FAIL"));
+	}
+
+	CString regVal;
+	regVal.Format(_T("%s"), act);
 
 	m_ReadReg.SetSel(0, 0);
-	m_ReadReg.ReplaceSel(CString(L"Hello World"));
+	// m_ReadReg.ReplaceSel(CString(L"Hello World"));
+	m_ReadReg.ReplaceSel(regVal);
 
 	// Add List to ScaleBox
 	m_ScaleList.AddString(L"0.5");
