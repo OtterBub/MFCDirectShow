@@ -128,11 +128,22 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	
 	// Load DLL
 	HINSTANCE hInst, currentInst;
+	CString cstrPath;
+	TCHAR path[MAX_PATH] = { 0, };
 
-	hInst = LoadLibrary(L"C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\bin\\Debug\\ImageDLL.dll");
+	// Get Current Hinstance
+	currentInst = AfxGetResourceHandle();
+
+	// Get Directory by Current Execute File
+	GetModuleFileName(currentInst, path, MAX_PATH);
+	PathRemoveFileSpec(path);
+	cstrPath.SetString(path);
+
+	// Load ImageDLL.dll
+	cstrPath.Append(L"\\ImageDLL.dll");
+	hInst = LoadLibrary(cstrPath);
 
 	// Set DLL Resource
-	currentInst = AfxGetResourceHandle();
 	AfxSetResourceHandle(hInst);
 
 	// Load Png - dont working
