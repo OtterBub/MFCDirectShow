@@ -41,8 +41,11 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-04
+- [ ] Create My Filter
+
 2022-03-03
-- [ ] Load Support Other Language (by DLL)
+- [x] Load Support Other Language (by DLL)
 
 2022-03-02
 - [x] Load Image by Load DLL - Done

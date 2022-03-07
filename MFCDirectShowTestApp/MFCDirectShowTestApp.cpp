@@ -66,7 +66,7 @@ BOOL CMFCDirectShowTestApp::InitInstance()
 	PathRemoveFileSpec(path);
 	cstrPath.SetString(path);
 
-	// Load ImageDLL.dll
+	// Load Language DLL
 	cstrPath.Append(L"\\KoLangDll.dll");
 	hInst = LoadLibrary(cstrPath);
 
