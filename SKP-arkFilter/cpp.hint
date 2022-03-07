@@ -1,0 +1,2 @@
+#define SKPARKFILTER_API __declspec(dllexport)
+#define SKPARKFILTER_API __declspec(dllimport)

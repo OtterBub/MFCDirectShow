@@ -6,6 +6,12 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-07.2
+- Add MyFilter(SKParkFilter) (Base Samples DumpFilter)
+
+2022-03-07.1
+- Add BaseClasses (For Create Filter)
+
 2022-03-03.3
 - Build KoLang.DLL (For Support Other Language Test)
 
@@ -42,7 +48,9 @@ DirectShow Library Test.
 
 # To-Do (Important)
 2022-03-04
-- [ ] Create My Filter
+- [x] Create My Filter
+- [ ] Upgrade My Filters
+- [ ] Use MyFilter in MFCDirectShoTestApp
 
 2022-03-03
 - [x] Load Support Other Language (by DLL)
