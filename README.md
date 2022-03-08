@@ -47,10 +47,13 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-08
+- [ ] Create Renderer by DirectX 3D Filter
+
 2022-03-04
 - [x] Create My Filter
 - [ ] Upgrade My Filters
-- [ ] Use MyFilter in MFCDirectShoTestApp
+- [ ] Use MyFilter in MFCDirectShowTestApp
 
 2022-03-03
 - [x] Load Support Other Language (by DLL)
