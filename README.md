@@ -6,6 +6,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-10
+- Add Batch File For AX File Auto Registration
+- Add Project For Renderer Filter
+
 2022-03-07.2
 - Add MyFilter(SKParkFilter) (Base Samples DumpFilter)
 
