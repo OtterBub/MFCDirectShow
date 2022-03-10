@@ -115,7 +115,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>winmm.lib;strmiids.lib;quartz.lib;strmbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D2d1.lib;winmm.lib;strmiids.lib;quartz.lib;strmbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -134,7 +134,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>winmm.lib;strmiids.lib;quartz.lib;strmbasd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D2d1.lib;winmm.lib;strmiids.lib;quartz.lib;strmbasd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -181,6 +181,7 @@
     <None Include="SKP-arkRendererFilter.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DRenderer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SKP-arkRendererFilter.h" />

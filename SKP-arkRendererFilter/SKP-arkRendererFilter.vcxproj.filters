@@ -1,3 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Setup.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SKP-arkRendererFilter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Header</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SKP-arkRendererFilter.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SKP-arkRendererFilter_Guids.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DRenderer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{5bfde30c-d9ce-4ce6-9bb5-10c49311fc69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e4f5814e-8f0f-457c-8877-9e87a1c6b780}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
