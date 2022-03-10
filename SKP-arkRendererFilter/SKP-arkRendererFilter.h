@@ -15,6 +15,20 @@ class CSKParkFilter;
 #define FIRST_HALF_LINE TEXT  ("   %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x")
 #define SECOND_HALF_LINE TEXT (" %2x %2x %2x %2x %2x %2x %2x %2x %2x %2x")
 
+// Renderer Filter
+class CSKParkRender : public CBaseVideoRenderer // public IVideoRenderer
+{
+public:
+	CSKParkRender(void);
+	virtual ~CSKParkRender(void);
+
+protected:
+private:
+	HWND m_hWnd;
+
+	HANDLE m_event;
+};
+
 
 // Main filter object
 
