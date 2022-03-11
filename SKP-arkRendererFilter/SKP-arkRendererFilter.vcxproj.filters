@@ -10,6 +10,15 @@
     <ClCompile Include="pch.cpp">
       <Filter>Header</Filter>
     </ClCompile>
+    <ClCompile Include="DRenderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoWindow.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorSpaceConverter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,9 +36,16 @@
     <ClInclude Include="DRenderer.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="ColorSpaceConverter.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoWindow.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="SKP-arkRendererFilter.def" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

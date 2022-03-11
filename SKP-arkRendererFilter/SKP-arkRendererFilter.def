@@ -1,5 +1,5 @@
 LIBRARY	SKP_arkRendererFilter.dll
-DESCRIPTION 'SKPark Filter For Study'
+DESCRIPTION 'SKPark Renderer Filter For Study'
 EXPORTS
 	DllRegisterServer PRIVATE
 	DllUnregisterServer	PRIVATE

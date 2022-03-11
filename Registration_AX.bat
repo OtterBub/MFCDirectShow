@@ -47,8 +47,8 @@ if '%errorlevel%' NEQ '0' (
 set /p choice=Please choose 1 OR 2 :
 
 
-if "%choice%"==1 goto RELEASE
-if "%choice%"==2 goto DEBUG
+if "%choice%"=="1" ( goto RELEASE )
+if "%choice%"=="2" ( goto DEBUG )
 
 :RELEASE
 REM Release
@@ -58,7 +58,6 @@ for %%i in (%cd%\bin\Release\*.ax) do regsvr32.exe /s %%i
 goto END
 
 :DEBUG
-if "%choice%"==2
 REM Debug
 @echo ## "Debug Run Registering Filter AX"
 @echo on
@@ -67,6 +66,7 @@ goto END
 
 
 :END
+@echo off
 @echo ##
 @echo ##
 @echo ## "Complete Registered Filter AX"

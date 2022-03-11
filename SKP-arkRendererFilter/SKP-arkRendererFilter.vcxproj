@@ -181,13 +181,17 @@
     <None Include="SKP-arkRendererFilter.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColorSpaceConverter.h" />
     <ClInclude Include="DRenderer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SKP-arkRendererFilter.h" />
     <ClInclude Include="SKP-arkRendererFilter_Guids.h" />
+    <ClInclude Include="VideoWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ColorSpaceConverter.cpp" />
+    <ClCompile Include="DRenderer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -196,6 +200,7 @@
     </ClCompile>
     <ClCompile Include="Setup.cpp" />
     <ClCompile Include="SKP-arkRendererFilter.cpp" />
+    <ClCompile Include="VideoWindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
