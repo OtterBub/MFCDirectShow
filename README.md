@@ -8,7 +8,7 @@ DirectShow Library Test.
 # Update History
 2022-03-11
 - "Registration_AX.bat" Issue Fixed
-- DRenderer Done, but Convert to Direct3D
+- DRenderer Done, but Working Convert to Direct3D
 
 2022-03-10
 - Add Batch File For AX File Auto Registration
