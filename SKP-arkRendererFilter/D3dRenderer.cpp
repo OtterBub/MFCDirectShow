@@ -165,6 +165,32 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 
 bool CD3Drenderer::Draw()
 {
+	// Create Vertex Buffer
+
+	float vertex_data_array[] = {
+		0.0f, 0.5f, 0.0f, // top
+		0.5f, -0.5f, 0.0f, // botoom-right
+		-0.5f, -0.5f, 0.0f, // botoom-left
+	};
+	UINT vertex_stride = 3 * sizeof(float);
+	UINT vertex_offset = 0;
+	UINT vertex_count = 3;
+
+	ID3D11Buffer *pVertexBuffer = NULL;
+	// Load Mesh Data into vertex buffer
+	D3D11_BUFFER_DESC vertexBuffDesc = { 0, };
+	vertexBuffDesc.ByteWidth = sizeof(vertex_data_array);
+	vertexBuffDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	D3D11_SUBRESOURCE_DATA sr_data = { 0, };
+	sr_data.pSysMem = vertex_data_array;
+	HRESULT hr = m_pDevice->CreateBuffer(
+		&vertexBuffDesc,
+		&sr_data,
+		&pVertexBuffer
+	);
+	assert(SUCCEEDED(hr));
+
 
 	return true;
 }
