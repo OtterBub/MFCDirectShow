@@ -191,7 +191,7 @@ bool CD3Drenderer::Draw()
 	);
 	assert(SUCCEEDED(hr));
 
-
+	// Draw Do~~
 	return true;
 }
 
