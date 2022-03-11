@@ -6,6 +6,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-11
+- "Registration_AX.bat" Issue Fixed
+- DRenderer Done, but Convert to Direct3D
+
 2022-03-10
 - Add Batch File For AX File Auto Registration
 - Add Project For Renderer Filter
@@ -51,6 +55,9 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-11
+- [ ] CDRenderer class Convert to DirectX 3D
+
 2022-03-08
 - [ ] Create Renderer by DirectX 3D Filter
 
@@ -76,6 +83,9 @@ DirectShow Library Test.
 - [x] Display Webcam by DirectShow Library - Done
 
 ## To-Do (Minor)
+2022-03-08
+- [x] Create Renderer by Direct2D
+
 2022-03-03
 - [ ] Button Multi Image (Mouse Over, Mouse Click)
 
