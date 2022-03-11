@@ -57,6 +57,8 @@ DirectShow Library Test.
 # To-Do (Important)
 2022-03-11
 - [ ] CDRenderer class Convert to DirectX 3D
+- [ ] Draw Effect
+- [ ] Video compositing
 
 2022-03-08
 - [ ] Create Renderer by DirectX 3D Filter
