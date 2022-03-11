@@ -58,6 +58,7 @@ REM Release
 @echo ## "Release Run Registering Filter ax"
 @echo on
 for %%i in (%cd%\bin\Release\*.ax) do regsvr32.exe /s %%i
+@echo off
 goto END
 
 :DEBUG
@@ -65,6 +66,7 @@ REM Debug
 @echo ## "Debug Run Registering Filter AX"
 @echo on
 for %%i in (%cd%\bin\Debug\*.ax) do regsvr32.exe /s %%i
+@echo off
 goto END
 
 
