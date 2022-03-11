@@ -1,5 +1,8 @@
+#pragma once
+
 #include <dvdmedia.h>
 #include "DRenderer.h"
+#include "D3dRenderer.h"
 #include "VideoWindow.h"
 #include "ColorSpaceConverter.h"
 #include "SKP-arkRendererFilter_Guids.h"
@@ -43,6 +46,8 @@ protected:
 	BITMAPINFOHEADER m_bmpInfo;
 	CMediaType m_mediaType;
 	CColorSpaceConverter* m_converter;
+
+	CD3Drenderer* m_3drenderer;
 
 private:
 };

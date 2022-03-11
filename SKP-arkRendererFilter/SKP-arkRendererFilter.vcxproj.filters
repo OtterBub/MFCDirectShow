@@ -19,6 +19,9 @@
     <ClCompile Include="ColorSpaceConverter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="D3dRenderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -42,17 +45,28 @@
     <ClInclude Include="VideoWindow.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="D3dRenderer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
     <None Include="SKP-arkRendererFilter.def" />
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{67824897-d31c-414d-983f-a959e5736d3c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header">
       <UniqueIdentifier>{5bfde30c-d9ce-4ce6-9bb5-10c49311fc69}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{e4f5814e-8f0f-457c-8877-9e87a1c6b780}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

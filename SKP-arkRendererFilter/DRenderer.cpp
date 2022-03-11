@@ -62,6 +62,7 @@ HRESULT CDRenderer::DrawSample(const BYTE * pRgb32Buffer)
 	{
 		HR(CreateResources())
 	}
+	
 
 	HR(m_bitmap->CopyFromMemory(NULL, pRgb32Buffer, m_pitch));
 

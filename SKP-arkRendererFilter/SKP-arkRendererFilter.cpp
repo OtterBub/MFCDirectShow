@@ -6,6 +6,7 @@ CSKParkRender::CSKParkRender(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseVideoRenderer(CLSID_SKParkRendererFilter, FILTER_NAME, pUnk, phr),
 	m_hWnd(0), m_converter(0)
 {
+	m_3drenderer = new CD3Drenderer();
 	m_renderer = new CDRenderer();
 	m_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 }
