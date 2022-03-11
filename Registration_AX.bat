@@ -1,10 +1,13 @@
 @echo off
 
 @echo ##
-@echo ## Registered Filter AX File
+@echo ## Register Filter AX File
 @echo ## 20220310 Created by SungKyoung Park (VIDBOX INC.)
 @echo ##
 @echo ## --- Patch Note ---
+@echo ## -- 20220311
+@echo ## Don't work register debug file Issue Fixed
+@echo ## 
 @echo ## -- 20220310
 @echo ## First Create
 
@@ -36,7 +39,7 @@ if '%errorlevel%' NEQ '0' (
 @echo off
 @cls
 @echo ##
-@echo ## Registered Filter AX
+@echo ## Register Filter AX File
 @echo ## 20220310 Created by Park SungKyoung (VIDBOX INC.)
 @echo ## ================================================
 @echo ##
@@ -69,7 +72,7 @@ goto END
 @echo off
 @echo ##
 @echo ##
-@echo ## "Complete Registered Filter AX"
+@echo ## "Complete Register Filter AX"
 @echo ##
 @echo ## "Plase Any Key ...."
 @pause > nul
