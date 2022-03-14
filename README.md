@@ -6,7 +6,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
-2022-03-14
+2022-03-14.2
+- Change Direct SDKMode on Dialog Window
+
+2022-03-14.1
 - Get Interface, Set hWnd by Interface
 - include SKP-ark Renderer Filter in MFCDirecTshowTestApp
 - Direct 3D 11 Draw Triangle Filter
@@ -61,8 +64,9 @@ DirectShow Library Test.
 
 # To-Do (Important)
 2022-03-14
-- [x] Load Custom Filter in Code
-- [x] Get Interface
+- [ ] Draw Preview DirectX 3D 11 by Input Source
+- [x] Load Custom Filter in Code - Done
+- [x] Get Interface - Done
 
 2022-03-11
 - [ ] CDRenderer class Convert to DirectX 3D
@@ -70,12 +74,12 @@ DirectShow Library Test.
 - [ ] Video compositing
 
 2022-03-08
-- [ ] Create Renderer by DirectX 3D Filter
+- [x] Create Renderer by DirectX 3D Filter - Done
 
 2022-03-04
-- [x] Create My Filter
-- [ ] Upgrade My Filters
-- [ ] Use MyFilter in MFCDirectShowTestApp
+- [x] Create My Filter - Done
+- [x] Upgrade My Filters - Done
+- [x] Use MyFilter in MFCDirectShowTestApp - Done
 
 2022-03-03
 - [x] Load Support Other Language (by DLL)
@@ -95,7 +99,7 @@ DirectShow Library Test.
 
 ## To-Do (Minor)
 2022-03-08
-- [x] Create Renderer by Direct2D
+- [x] Create Renderer by Direct2D - Done
 
 2022-03-03
 - [ ] Button Multi Image (Mouse Over, Mouse Click)
