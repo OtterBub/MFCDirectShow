@@ -77,9 +77,10 @@ HRESULT CDRenderer::DrawSample(const BYTE * pRgb32Buffer)
 		{
 			m_hWndTarget->Resize(newSize);
 		}
-		//newSize.width = 1200;
-		//newSize.height = 800;
-		wprintf(L"SKP-arkRender Filter DLL (%d, %d)\n", newSize.width, newSize.height);
+		// newSize.width = 1200;
+		// newSize.height = 800;
+		// wprintf(L"SKP-arkRender Filter DLL (%d, %d)\n", newSize.width, newSize.height);
+
 		D2D1_RECT_F rectangle = D2D1::RectF(0, 0, newSize.width, newSize.height);
 
 		if (m_displayMode == DisplayMode::KeepAspectRatio)

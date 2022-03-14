@@ -39,7 +39,7 @@ HRESULT CDShow::Initialize()
 
 	CComPtr<IBaseFilter> mjpegDec;
 	hr = CoCreateInstance(CLSID_MjpegDec, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&mjpegDec);
-
+	
 	hr = m_pCaptureBuilder->SetFiltergraph(m_pGraph);
 	RETURN_FAILD_HRESULT(hr);
 
