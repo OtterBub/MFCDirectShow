@@ -110,7 +110,8 @@ DirectShow Library Test.
 
 # Issue
 2022-03-14
-- [ ] Only Main hWnd Draw
+- [ ] Don't Display Preview, if Change Capture Device
+- [x] Only Main hWnd Draw (Fixed)
 
 2022-03-03
 - [ ] if Change Resolution Big to Small, BackGround Issue Occur.

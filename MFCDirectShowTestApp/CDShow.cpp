@@ -37,10 +37,16 @@ HRESULT CDShow::Initialize()
 	hr = CoCreateInstance(CLSID_SKParkRendererFilter, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&m_pRenderFilter);
 	RETURN_FAILD_HRESULT(hr);
 
+	CComPtr<IBaseFilter> mjpegDec;
+	hr = CoCreateInstance(CLSID_MjpegDec, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&mjpegDec);
+
 	hr = m_pCaptureBuilder->SetFiltergraph(m_pGraph);
 	RETURN_FAILD_HRESULT(hr);
 
 	hr = m_pGraph->AddFilter(m_pRenderFilter, NULL);
+	RETURN_FAILD_HRESULT(hr);
+
+	hr = m_pGraph->AddFilter(mjpegDec, NULL);
 	RETURN_FAILD_HRESULT(hr);
 
 	m_pRenderFilter->QueryInterface(IID_IVideoRenderer, (void**)&m_pVideoRenderer);
@@ -74,7 +80,7 @@ HRESULT CDShow::Initialize(HWND hwnd)
 	hr = CDShow::Initialize();
 	
 	if(m_pVideoRenderer)
-		m_pVideoRenderer->SetVideoWindow(hwnd);
+		m_pVideoRenderer->SetVideoWindow(GetDlgItem(m_hWndDraw, IDC_STATIC3));
 	
 	RETURN_FAILD_HRESULT(hr);
 
@@ -378,10 +384,9 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	staticWindow->GetClientRect(&rect);
 
 	// Window Setting
-	hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
-	// hr = m_pVideoRenderer->SetVideoWindow(m_hWndDraw);
-	hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
-	// hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
+	//hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
+	//hr = m_pVideoRenderer->SetVideoWindow(staticWindow->GetSafeHwnd());
+	//hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
 
 	// if (m_CurrentRes.x > rect.Width()) {
 	// 	m_scale = 0.5;
@@ -391,7 +396,7 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	m_CurrentRes.y *= m_scale;
 	viewLeftTopPoint.x = rect.CenterPoint().x - (m_CurrentRes.x / 2);
 	viewLeftTopPoint.y = rect.CenterPoint().y - (m_CurrentRes.y / 2);
-	hr = m_pVW->SetWindowPosition(viewLeftTopPoint.x, viewLeftTopPoint.y, m_CurrentRes.x, m_CurrentRes.y);
+	// hr = m_pVW->SetWindowPosition(viewLeftTopPoint.x, viewLeftTopPoint.y, m_CurrentRes.x, m_CurrentRes.y);
 
 	wprintf(L"CameraSetWindow: %d x %d\n", m_CurrentRes.x, m_CurrentRes.y);
 	

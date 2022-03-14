@@ -6,7 +6,7 @@ CDRenderer::CDRenderer(void)
 	m_bitmap = NULL;
 	m_d2dFactory = NULL;
 	m_hWndTarget = NULL;
-	m_displayMode = DisplayMode::KeepAspectRatio;
+	m_displayMode = DisplayMode::Fill;
 	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, IID_ID2D1Factory, (void **)&m_d2dFactory);
 }
 
@@ -72,12 +72,14 @@ HRESULT CDRenderer::DrawSample(const BYTE * pRgb32Buffer)
 		::GetClientRect(m_hWnd, &rect);
 		D2D1_SIZE_U newSize = { rect.right, rect.bottom };
 		D2D1_SIZE_U size = m_hWndTarget->GetPixelSize();
-
+		
 		if (newSize.height != size.height || newSize.width != size.width)
 		{
 			m_hWndTarget->Resize(newSize);
 		}
-
+		//newSize.width = 1200;
+		//newSize.height = 800;
+		wprintf(L"SKP-arkRender Filter DLL (%d, %d)\n", newSize.width, newSize.height);
 		D2D1_RECT_F rectangle = D2D1::RectF(0, 0, newSize.width, newSize.height);
 
 		if (m_displayMode == DisplayMode::KeepAspectRatio)
@@ -137,6 +139,9 @@ HRESULT CDRenderer::CreateResources()
 		rect.bottom - rect.top
 	};
 
+	windowSize.width /= 2;
+	windowSize.height /= 2;
+
 	D2D1_HWND_RENDER_TARGET_PROPERTIES hWndRenderTargetProps =
 	{
 		m_hWnd,
@@ -148,11 +153,12 @@ HRESULT CDRenderer::CreateResources()
 
 	if (m_bFlipHorizontally)
 	{
-		D2D1::Matrix3x2F scale = D2D1::Matrix3x2F(1, 0,
-			0, -1,
+		D2D1::Matrix3x2F scale = D2D1::Matrix3x2F(0.5, 0,
+			0, -0.5,
 			0, 0);
 
 		D2D1::Matrix3x2F translate = D2D1::Matrix3x2F::Translation(0, windowSize.height);
+		//D2D1::Matrix3x2F translate = D2D1::Matrix3x2F::Translation(0, 1);
 		m_hWndTarget->SetTransform(scale * translate);
 	}
 
