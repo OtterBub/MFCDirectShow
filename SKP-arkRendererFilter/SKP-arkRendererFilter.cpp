@@ -9,6 +9,7 @@ CSKParkRender::CSKParkRender(LPUNKNOWN pUnk, HRESULT* phr)
 	m_3drenderer = new CD3Drenderer();
 	m_renderer = new CDRenderer();
 	m_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_SDKMode = DrawSDKMode::Direct2D;
 }
 
 CSKParkRender::~CSKParkRender(void)
@@ -24,14 +25,24 @@ HRESULT CSKParkRender::DoRenderSample(IMediaSample *pMediaSample)
 	BYTE* pBuffer = NULL;
 	HR(pMediaSample->GetPointer(&pBuffer));
 
-	if (m_mediaType.subtype != MEDIASUBTYPE_RGB32)
+	switch (m_SDKMode)
 	{
-		const BYTE* rgbaBuffer = m_converter->convert_to_rgb32(pBuffer);
-		//return m_renderer->DrawSample(rgbaBuffer);
+	case DrawSDKMode::Direct2D:
+		if (m_mediaType.subtype != MEDIASUBTYPE_RGB32)
+		{
+			const BYTE* rgbaBuffer = m_converter->convert_to_rgb32(pBuffer);
+			return m_renderer->DrawSample(rgbaBuffer);
+		}
+		
+		return m_renderer->DrawSample(pBuffer);
+	
+	
+	case DrawSDKMode::Direct3D11:
+		m_3drenderer->Draw();
+		return S_OK;
 	}
-	m_3drenderer->Draw();
-	//return m_renderer->DrawSample(pBuffer);
-	return S_OK;
+
+	
 }
 
 HRESULT CSKParkRender::CheckMediaType(const CMediaType *pmt)
@@ -184,4 +195,9 @@ void CSKParkRender::SetDisplayMode(DisplayMode displayMode)
 DisplayMode CSKParkRender::GetDisplayMode()
 {
 	return m_renderer->GetDisplayMode();
+}
+
+STDMETHODIMP_(void __stdcall) CSKParkRender::SetDrawSDKMode(DrawSDKMode sdkmode)
+{
+	m_SDKMode = sdkmode;
 }

@@ -70,7 +70,7 @@ void CMFCDirectShowTestAppDlg::DoDataExchange(CDataExchange* pDX)
 	// DDX_Control(pDX, IDOK_APPLY, m_BitBtnApply);
 	DDX_Control(pDX, IDC_BUTTON1, m_CBitmapBtn);
 	DDX_Control(pDX, IDC_EDIT1, m_ReadReg);
-	
+	DDX_Control(pDX, IDC_COMBO2, m_ComboSDKMode);
 }
 
 BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
@@ -87,6 +87,7 @@ BEGIN_MESSAGE_MAP(CMFCDirectShowTestAppDlg, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_LIST3, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList3)
 	ON_LBN_SELCHANGE(IDC_LIST4, &CMFCDirectShowTestAppDlg::OnLbnSelchangeList4)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCDirectShowTestAppDlg::OnBnClickedApply)
+	ON_CBN_SELCHANGE(IDC_COMBO2, &CMFCDirectShowTestAppDlg::OnCbnSelchangeCombo2)
 END_MESSAGE_MAP()
 
 
@@ -163,6 +164,10 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	// Read RegKey Value Test
 	
 	CString regVal;
+
+	m_ComboSDKMode.AddString(_T("Direct2D"));
+	m_ComboSDKMode.AddString(_T("Direct3D11"));
+	m_ComboSDKMode.SetCurSel(0);
 
 	// Registry CRegKey Test
 	CRegKey regKey;
@@ -368,4 +373,24 @@ void CMFCDirectShowTestAppDlg::OnBnClickedButton1()
 {
 	// TODO: Add your control notification handler code here
 	CMFCDirectShowTestAppDlg::OnBnClickedApply();
+}
+
+
+void CMFCDirectShowTestAppDlg::OnCbnSelchangeCombo2()
+{
+	int index = m_ComboSDKMode.GetCurSel();
+	if (index >= 0) {
+		switch (index)
+		{
+		case 0:
+			m_cdshow.SetSDKMode(DrawSDKMode::Direct2D);
+			break;
+		case 1:
+			m_cdshow.SetSDKMode(DrawSDKMode::Direct3D11);
+			break;
+		default:
+			break;
+		}
+		
+	}
 }

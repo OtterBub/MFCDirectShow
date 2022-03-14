@@ -61,4 +61,6 @@ public:
 	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnLbnSelchangeList4();
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnCbnSelchangeCombo2();
+	CComboBox m_ComboSDKMode;
 };

@@ -57,6 +57,8 @@ public:
 	// Set Resolution Scale
 	HRESULT SetScale(float scale);
 
+	void SetSDKMode(DrawSDKMode sdkmode);
+
 protected:
 	HRESULT InitCamDeviceList();
 

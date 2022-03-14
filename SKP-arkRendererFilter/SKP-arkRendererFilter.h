@@ -36,6 +36,7 @@ public:
 	STDMETHODIMP SetVideoWindow(HWND hWnd);
 	STDMETHOD_(void, SetDisplayMode)(DisplayMode);
 	STDMETHOD_(DisplayMode, GetDisplayMode)(void);
+	STDMETHOD_(void, SetDrawSDKMode)(DrawSDKMode);
 
 	void CreateDefaultWindow();
 
@@ -47,6 +48,8 @@ protected:
 	BITMAPINFOHEADER m_bmpInfo;
 	CMediaType m_mediaType;
 	CColorSpaceConverter* m_converter;
+
+	DrawSDKMode m_SDKMode;
 
 	CD3Drenderer* m_3drenderer;
 

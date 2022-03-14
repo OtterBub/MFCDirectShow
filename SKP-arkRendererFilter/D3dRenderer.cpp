@@ -211,7 +211,7 @@ bool CD3Drenderer::Draw()
 		0.0f,
 		1.0f
 	};
-
+	
 	m_pDeviceContext->RSSetViewports(1, &viewport);
 
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);

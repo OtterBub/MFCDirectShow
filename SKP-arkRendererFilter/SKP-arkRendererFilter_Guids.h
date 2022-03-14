@@ -14,11 +14,18 @@ enum DisplayMode
 	Fill = 1
 };
 
+enum DrawSDKMode
+{
+	Direct2D = 0,
+	Direct3D11 = 1
+};
+
 DECLARE_INTERFACE_(IVideoRenderer, IUnknown)
 {
 	STDMETHOD(SetVideoWindow)(HWND hWnd) PURE;
 	STDMETHOD_(void, SetDisplayMode)(DisplayMode) PURE;
 	STDMETHOD_(DisplayMode, GetDisplayMode)(void) PURE;
+	STDMETHOD_(void, SetDrawSDKMode)(DrawSDKMode) PURE;
 };
 
 #define FILTER_NAME TEXT("SKP-arkRendererFilter")

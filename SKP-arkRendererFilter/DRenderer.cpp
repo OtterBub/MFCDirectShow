@@ -56,6 +56,9 @@ static inline void ApplyLetterBoxing(D2D1_RECT_F& rendertTargetArea, D2D1_SIZE_F
 
 HRESULT CDRenderer::DrawSample(const BYTE * pRgb32Buffer)
 {
+	static int count = 0;
+	wprintf(L"Draw Direct2D \\ %d\n", count++);
+
 	CheckPointer(pRgb32Buffer, E_POINTER);
 
 	if (!m_bitmap || !m_hWndTarget)

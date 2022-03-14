@@ -54,7 +54,7 @@ BOOL CMFCDirectShowTestApp::InitInstance()
 	TCHAR buff[MAX_PATH];
 
 	// Load DLL
-	HINSTANCE hInst, currentInst;
+	HINSTANCE hInst = NULL, currentInst = NULL;
 	CString cstrPath;
 	TCHAR path[MAX_PATH] = { 0, };
 
@@ -67,8 +67,8 @@ BOOL CMFCDirectShowTestApp::InitInstance()
 	cstrPath.SetString(path);
 
 	// Load Language DLL
-	cstrPath.Append(L"\\KoLangDll.dll");
-	hInst = LoadLibrary(cstrPath);
+	//cstrPath.Append(L"\\KoLangDll.dll");
+	// hInst = LoadLibrary(cstrPath);
 
 	// Set DLL Resource
 	if (hInst)

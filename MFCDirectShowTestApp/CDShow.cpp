@@ -321,6 +321,11 @@ HRESULT CDShow::SetScale(float scale)
 	return S_OK;
 }
 
+void CDShow::SetSDKMode(DrawSDKMode sdkmode)
+{
+	m_pVideoRenderer->SetDrawSDKMode(sdkmode);
+}
+
 // ----- protected -----
 HRESULT CDShow::InitCamDeviceList()
 {
