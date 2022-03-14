@@ -39,6 +39,7 @@ public:
 
 	void CreateDefaultWindow();
 
+
 protected:
 	HWND m_hWnd;
 	CDRenderer* m_renderer;

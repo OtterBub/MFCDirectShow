@@ -9,7 +9,9 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <initguid.h>
 #include <afxwin.h>
+#include "..\SKP-arkRendererFilter\SKP-arkRendererFilter_Guids.h"
 
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 

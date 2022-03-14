@@ -17,7 +17,7 @@ CDShow::~CDShow()
 {
 	SAFE_RELEASE(m_pGraph);
 	SAFE_RELEASE(m_pCaptureBuilder);
-	SAFE_RELEASE(m_pMC);
+	//SAFE_RELEASE(m_pMC);
 	SAFE_RELEASE(m_pVW);
 	SAFE_RELEASE(m_pME);
 }
@@ -34,7 +34,16 @@ HRESULT CDShow::Initialize()
 	hr = CoCreateInstance(CLSID_CaptureGraphBuilder2, NULL, CLSCTX_INPROC_SERVER, IID_ICaptureGraphBuilder2, (void**)&m_pCaptureBuilder);
 	RETURN_FAILD_HRESULT(hr);
 
+	hr = CoCreateInstance(CLSID_SKParkRendererFilter, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&m_pRenderFilter);
+	RETURN_FAILD_HRESULT(hr);
+
 	hr = m_pCaptureBuilder->SetFiltergraph(m_pGraph);
+	RETURN_FAILD_HRESULT(hr);
+
+	hr = m_pGraph->AddFilter(m_pRenderFilter, NULL);
+	RETURN_FAILD_HRESULT(hr);
+
+	m_pRenderFilter->QueryInterface(IID_IVideoRenderer, (void**)&m_pVideoRenderer);
 	RETURN_FAILD_HRESULT(hr);
 
 	hr = m_pGraph->QueryInterface(IID_IMediaControl, (void**)&m_pMC);
@@ -45,6 +54,8 @@ HRESULT CDShow::Initialize()
 	
 	hr = m_pGraph->QueryInterface(IID_IMediaEventEx, (void**)&m_pME);
 	RETURN_FAILD_HRESULT(hr);
+
+	
 
 	InitCamDeviceList();
 	SelectCaptureFilter();
@@ -59,8 +70,12 @@ HRESULT CDShow::Initialize(HWND hwnd)
 	GetWindowRect(hwnd, &wrc);
 
 	m_hWndDraw = hwnd;
-	
+
 	hr = CDShow::Initialize();
+	
+	if(m_pVideoRenderer)
+		m_pVideoRenderer->SetVideoWindow(hwnd);
+	
 	RETURN_FAILD_HRESULT(hr);
 
 	return hr;
@@ -72,9 +87,11 @@ HRESULT CDShow::UnInitialize()
 
 	SAFE_RELEASE(m_pGraph);
 	SAFE_RELEASE(m_pCaptureBuilder);
-	SAFE_RELEASE(m_pMC);
+	//SAFE_RELEASE(m_pMC);
 	SAFE_RELEASE(m_pVW);
 	SAFE_RELEASE(m_pME);
+
+	//SAFE_RELEASE(m_pVideoRenderer);
 
 	for each (std::pair<CString, IBaseFilter*> var in m_mapCamDevicesFilter) {
 		SAFE_RELEASE(var.second);
@@ -112,7 +129,8 @@ HRESULT CDShow::CameraStart(CString deviceFriendlyName)
 	hr = m_pGraph->AddFilter(m_pCurrentCaptureFilter, NULL);
 	RETURN_FAILD_HRESULT(hr);
 
-	hr = m_pCaptureBuilder->RenderStream(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pCurrentCaptureFilter, NULL, NULL);
+	//hr = m_pCaptureBuilder->RenderStream(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pCurrentCaptureFilter, NULL, NULL);
+	hr = m_pCaptureBuilder->RenderStream(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pCurrentCaptureFilter, NULL, m_pRenderFilter);
 	RETURN_FAILD_HRESULT(hr);
 
 	CameraSetWindow(GetDlgItem(m_hWndDraw, IDC_STATIC3));
@@ -361,6 +379,7 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 
 	// Window Setting
 	hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
+	// hr = m_pVideoRenderer->SetVideoWindow(m_hWndDraw);
 	hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
 	// hr = m_pVW->SetWindowPosition(0, 0, rect.Width(), rect.Height());
 

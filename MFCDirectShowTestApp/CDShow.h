@@ -78,9 +78,14 @@ private:
 	// For Draw Window
 	HWND m_hWndDraw;
 	
-	IMediaControl *m_pMC;
+	CComPtr<IBaseFilter> m_pRenderFilter;
+	CComPtr<IVideoRenderer> m_pVideoRenderer;
+
+	//IMediaControl *m_pMC;
 	IVideoWindow *m_pVW;
 	IMediaEventEx *m_pME;
+
+	CComPtr<IMediaControl> m_pMC;
 
 	CPoint m_CurrentRes;
 	float m_scale;

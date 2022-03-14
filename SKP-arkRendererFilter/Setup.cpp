@@ -54,6 +54,9 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 //
 // Handle the registration of this filter
 //
+// AMovieDllRegisterServer2 TRUE (register) / FALSE (unregister)
+// Source: https://docs.microsoft.com/en-us/windows/win32/directshow/amoviedllregisterserver2
+//
 STDAPI DllRegisterServer()
 {
 	return AMovieDllRegisterServer2(TRUE);

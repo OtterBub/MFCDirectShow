@@ -4,19 +4,7 @@
 #include <d2d1.h>
 #include <d2d1helper.h>
 #include <atlbase.h>
-
-enum DisplayMode
-{
-	KeepAspectRatio = 0,
-	Fill = 1
-};
-
-DECLARE_INTERFACE_(IVideoRenderer, IUnknown)
-{
-	STDMETHOD(SetVideoWindow)(HWND hWnd) PURE;
-	STDMETHOD_(void, SetDisplayMode)(DisplayMode) PURE;
-	STDMETHOD_(DisplayMode, GetDisplayMode)(void) PURE;
-};
+#include "SKP-arkRendererFilter_Guids.h"
 
 template <typename T>
 inline void SafeRelease(T& p)
