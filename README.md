@@ -6,6 +6,10 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-14
+- Get Interface, Set hWnd by Interface
+- include SKP-ark Renderer Filter in MFCDirecTshowTestApp
+
 2022-03-11
 - "Registration_AX.bat" Issue Fixed
 - DRenderer Done, but Working Convert to Direct3D
@@ -55,6 +59,10 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-14
+- [x] Load Custom Filter in Code
+- [x] Get Interface
+
 2022-03-11
 - [ ] CDRenderer class Convert to DirectX 3D
 - [ ] Draw Effect
@@ -101,6 +109,9 @@ DirectShow Library Test.
 - [ ] Edit View Display
 
 # Issue
+2022-03-14
+- [ ] Only Main hWnd Draw
+
 2022-03-03
 - [ ] if Change Resolution Big to Small, BackGround Issue Occur.
 - [ ] Change Resolution, Memory leak Issue occur
