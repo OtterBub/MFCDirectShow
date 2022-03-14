@@ -7,6 +7,9 @@ CD3Drenderer::CD3Drenderer()
 	m_pDeviceContext = NULL;
 	m_pSwapChain = NULL;
 	m_pRenderTargetView = NULL;
+	m_pInputLayout = NULL;
+	m_pVertexShader = NULL;
+	m_pPixelShader = NULL;
 }
 
 CD3Drenderer::~CD3Drenderer()
@@ -21,7 +24,7 @@ bool CD3Drenderer::init(HWND hwnd)
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = { 0, };
 	swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B5G6R5_UNORM;
+	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -50,11 +53,11 @@ bool CD3Drenderer::init(HWND hwnd)
 		&featureLevel,
 		&m_pDeviceContext
 	);
-
-	assert( S_OK == hr &&
-	m_pSwapChain &&
-	m_pDevice &&
-	m_pDeviceContext);
+	assert(m_hWnd);
+	assert(m_pSwapChain);
+	assert(m_pDevice);
+	assert(m_pDeviceContext);
+	assert(S_OK == hr);
 
 	ID3D11Texture2D* framebuffer;
 	hr = m_pSwapChain->GetBuffer(0, __uuidof( ID3D11Texture2D ), (void**)&framebuffer);
@@ -64,7 +67,7 @@ bool CD3Drenderer::init(HWND hwnd)
 	assert(SUCCEEDED(hr));
 	framebuffer->Release();
 
-	CD3Drenderer::ShaderCompile(TEXT("shaders.hlsl"));
+	CD3Drenderer::ShaderCompile(TEXT("C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\SKP-arkRendererFilter\\shaders.hlsl"));
 
 	return true;
 }
@@ -122,14 +125,11 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 		assert(false);
 	}
 
-	ID3D11VertexShader *pVertexShader = NULL;
-	ID3D11PixelShader *pPixelShader = NULL;
-
 	hr = m_pDevice->CreateVertexShader(
 		pVsBlob->GetBufferPointer(),
 		pVsBlob->GetBufferSize(),
 		NULL,
-		&pVertexShader
+		&m_pVertexShader
 	);
 	assert(SUCCEEDED(hr));
 
@@ -137,11 +137,10 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 		pPsBlob->GetBufferPointer(),
 		pPsBlob->GetBufferSize(),
 		NULL,
-		&pPixelShader
+		&m_pPixelShader
 	);
 	assert(SUCCEEDED(hr));
 
-	ID3D11InputLayout* pInputLayout = NULL;
 	D3D11_INPUT_ELEMENT_DESC inputElementDesc[] = {
 		{"POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		/*
@@ -156,7 +155,7 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 		ARRAYSIZE(inputElementDesc),
 		pVsBlob->GetBufferPointer(),
 		pVsBlob->GetBufferSize(),
-		&pInputLayout
+		&m_pInputLayout
 	);
 	assert(SUCCEEDED(hr));
 
@@ -165,6 +164,8 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 
 bool CD3Drenderer::Draw()
 {
+	static int count = 0;
+	wprintf(L"Draw Direct3D 11 \\ %d\n", count++);
 	// Create Vertex Buffer
 
 	float vertex_data_array[] = {
@@ -177,6 +178,7 @@ bool CD3Drenderer::Draw()
 	UINT vertex_count = 3;
 
 	ID3D11Buffer *pVertexBuffer = NULL;
+	
 	// Load Mesh Data into vertex buffer
 	D3D11_BUFFER_DESC vertexBuffDesc = { 0, };
 	vertexBuffDesc.ByteWidth = sizeof(vertex_data_array);
@@ -190,6 +192,47 @@ bool CD3Drenderer::Draw()
 		&pVertexBuffer
 	);
 	assert(SUCCEEDED(hr));
+
+
+	// Clear Back Buffer
+	float background_color[4] = {
+		0x64 / 255.0f, 0x95 / 255.0f, 0xED / 255.0f, 1.0f
+	};
+
+	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, background_color);
+
+	RECT winRect;
+	GetClientRect(m_hWnd, &winRect);
+	D3D11_VIEWPORT viewport = {
+		0.0f,
+		0.0f,
+		(FLOAT)(winRect.right - winRect.left),
+		(FLOAT)(winRect.bottom - winRect.top),
+		0.0f,
+		1.0f
+	};
+
+	m_pDeviceContext->RSSetViewports(1, &viewport);
+
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
+
+	m_pDeviceContext->IASetPrimitiveTopology(
+		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+	);
+	m_pDeviceContext->IASetInputLayout(m_pInputLayout);
+	m_pDeviceContext->IASetVertexBuffers(
+		0,
+		1,
+		&pVertexBuffer,
+		&vertex_stride,
+		&vertex_offset
+	);
+	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
+	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
+
+	m_pDeviceContext->Draw(vertex_count, 0);
+
+	m_pSwapChain->Present( 1, 0 );
 
 	// Draw Do~~
 	return true;

@@ -15,6 +15,7 @@ CSKParkRender::~CSKParkRender(void)
 {
 	delete m_converter;
 	delete m_renderer;
+	delete m_3drenderer;
 	CloseHandle(m_event);
 }
 
@@ -26,10 +27,11 @@ HRESULT CSKParkRender::DoRenderSample(IMediaSample *pMediaSample)
 	if (m_mediaType.subtype != MEDIASUBTYPE_RGB32)
 	{
 		const BYTE* rgbaBuffer = m_converter->convert_to_rgb32(pBuffer);
-		return m_renderer->DrawSample(rgbaBuffer);
+		//return m_renderer->DrawSample(rgbaBuffer);
 	}
-
-	return m_renderer->DrawSample(pBuffer);
+	m_3drenderer->Draw();
+	//return m_renderer->DrawSample(pBuffer);
+	return S_OK;
 }
 
 HRESULT CSKParkRender::CheckMediaType(const CMediaType *pmt)
@@ -135,7 +137,7 @@ HRESULT CSKParkRender::SetMediaType(const CMediaType *pmt)
 		pmt->subtype == MEDIASUBTYPE_RGB555 || pmt->subtype == MEDIASUBTYPE_RGB565);
 
 	m_converter = new CColorSpaceConverter(pmt->subtype, m_bmpInfo.biWidth, m_bmpInfo.biHeight);
-
+	m_3drenderer->init(m_hWnd);
 	return m_renderer->PrepareRenderTarget(m_bmpInfo, m_hWnd, hFlip);
 }
 

@@ -9,6 +9,7 @@ DirectShow Library Test.
 2022-03-14
 - Get Interface, Set hWnd by Interface
 - include SKP-ark Renderer Filter in MFCDirecTshowTestApp
+- Direct 3D 11 Draw Triangle Filter
 
 2022-03-11
 - "Registration_AX.bat" Issue Fixed

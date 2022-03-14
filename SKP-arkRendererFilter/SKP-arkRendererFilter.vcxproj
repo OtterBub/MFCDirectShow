@@ -118,6 +118,11 @@
       <AdditionalDependencies>user32.lib;dxgi.lib;d3dcompiler.lib;d3d11.lib;D2d1.lib;winmm.lib;strmiids.lib;quartz.lib;strmbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
     </Link>
+    <FxCompile>
+      <EntryPointName>main</EntryPointName>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,6 +142,11 @@
       <AdditionalDependencies>user32.lib;dxgi.lib;d3dcompiler.lib;d3d11.lib;D2d1.lib;winmm.lib;strmiids.lib;quartz.lib;strmbasd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
     </Link>
+    <FxCompile>
+      <EntryPointName>main</EntryPointName>
+      <ShaderModel>5.0</ShaderModel>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
