@@ -42,7 +42,7 @@ HRESULT CSKParkRender::DoRenderSample(IMediaSample *pMediaSample)
 		return S_OK;
 	}
 
-	
+	return E_FAIL;
 }
 
 HRESULT CSKParkRender::CheckMediaType(const CMediaType *pmt)

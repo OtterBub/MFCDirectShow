@@ -17,6 +17,7 @@ public:
 
 	bool init(HWND hwnd);
 	bool ShaderCompile(wchar_t* filename);
+	bool LoadTexture(wchar_t* filename);
 	
 	bool Draw();
 
@@ -30,6 +31,8 @@ public:
 	
 	ID3D11VertexShader* m_pVertexShader;
 	ID3D11PixelShader* m_pPixelShader;
+
+	ID3D11ShaderResourceView* m_texture;
 
 	HWND m_hWnd;
 

@@ -75,8 +75,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\</OutDir>
     <IntDir>Build\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)BaseClasses;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)BaseClasses\$(Configuration);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)BaseClasses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib;$(SolutionDir)BaseClasses\$(Configuration);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
     <TargetExt>.ax</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -84,8 +84,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\</OutDir>
     <IntDir>Build\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)BaseClasses;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)BaseClasses\$(Configuration);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)BaseClasses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib;$(SolutionDir)BaseClasses\$(Configuration);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
     <TargetExt>.ax</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,6 +123,10 @@
       <ShaderModel>5.0</ShaderModel>
       <ShaderType>Effect</ShaderType>
     </FxCompile>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)shaders.hlsl $(outdir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -147,6 +151,9 @@
       <ShaderModel>5.0</ShaderModel>
       <ShaderType>Effect</ShaderType>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)shaders.hlsl $(outdir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

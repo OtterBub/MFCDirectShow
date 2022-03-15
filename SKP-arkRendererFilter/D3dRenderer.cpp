@@ -67,7 +67,21 @@ bool CD3Drenderer::init(HWND hwnd)
 	assert(SUCCEEDED(hr));
 	framebuffer->Release();
 
-	CD3Drenderer::ShaderCompile(TEXT("C:\\Users\\skpark\\Documents\\WorkingForder\\TestProject\\MFC_Test\\MFCDirectShow\\SKP-arkRendererFilter\\shaders.hlsl"));
+	
+	// Load Current Folder hlsl
+	CString cstrPath;
+	TCHAR path[MAX_PATH] = { 0, };
+
+	// Get Directory by Current Execute File
+	GetModuleFileName(NULL, path, MAX_PATH);
+	PathRemoveFileSpec(path);
+	cstrPath.SetString(path);
+	cstrPath.Append(L"\\shaders.hlsl");
+
+	wprintf(L"ShaderFile Path:  %s\n", cstrPath);
+
+	CD3Drenderer::ShaderCompile(cstrPath.GetBuffer());
+
 
 	return true;
 }
@@ -162,12 +176,23 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 	return true;
 }
 
+bool CD3Drenderer::LoadTexture(wchar_t* filename)
+{
+	DirectX::ScratchImage image;
+	DirectX::LoadFromWICFile(filename, DirectX::WIC_FLAGS_NONE, nullptr, image);
+	//DirectX::LoadFromWICMemory
+	DirectX::CreateShaderResourceView(m_pDevice, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &m_pTexture);
+
+	return true;
+}
+
 bool CD3Drenderer::Draw()
 {
-	static int count = 0;
-	wprintf(L"Draw Direct3D 11 \\ %d\n", count++);
+	// Draw Call MFCDirectShowTestApp.exe Test
+	// static int count = 0;
+	// wprintf(L"Draw Direct3D 11 \\ %d\n", count++);
+	
 	// Create Vertex Buffer
-
 	float vertex_data_array[] = {
 		0.0f, 0.5f, 0.0f, // top
 		0.5f, -0.5f, 0.0f, // botoom-right
@@ -231,6 +256,7 @@ bool CD3Drenderer::Draw()
 	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
 
 	m_pDeviceContext->Draw(vertex_count, 0);
+	
 
 	m_pSwapChain->Present( 1, 0 );
 

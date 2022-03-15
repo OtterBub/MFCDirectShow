@@ -162,12 +162,7 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	AfxSetResourceHandle(currentInst);
 
 	// Read RegKey Value Test
-	
 	CString regVal;
-
-	m_ComboSDKMode.AddString(_T("Direct2D"));
-	m_ComboSDKMode.AddString(_T("Direct3D11"));
-	m_ComboSDKMode.SetCurSel(0);
 
 	// Registry CRegKey Test
 	CRegKey regKey;
@@ -202,10 +197,16 @@ BOOL CMFCDirectShowTestAppDlg::OnInitDialog()
 	m_ScaleList.AddString(L"3");
 	m_ScaleList.AddString(L"4");
 
+	// Add List to SDKMode ComboBox
+	m_ComboSDKMode.AddString(_T("Direct2D"));
+	m_ComboSDKMode.AddString(_T("Direct3D11"));
+	m_ComboSDKMode.SetCurSel(1);
+
 	// Init DirectShow 
 	m_cdshow.Initialize(this->m_hWnd);
 	m_cdshow.SetResolution();
 	m_cdshow.CameraStart();
+	m_cdshow.SetSDKMode(DrawSDKMode::Direct3D11);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
