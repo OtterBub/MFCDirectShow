@@ -63,6 +63,9 @@ DirectShow Library Test.
 - Camera Select And Click Apply, And Capture Camera
 
 # To-Do (Important)
+2022-03-24
+- [ ] Draw Effect by DirectX3D 11
+
 2022-03-14
 - [ ] Draw Preview DirectX 3D 11 by Input Source
 - [x] Load Custom Filter in Code - Done
