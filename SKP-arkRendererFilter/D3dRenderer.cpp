@@ -78,7 +78,7 @@ bool CD3Drenderer::init(HWND hwnd)
 	cstrPath.SetString(path);
 	cstrPath.Append(L"\\shaders.hlsl");
 
-	wprintf(L"ShaderFile Path:  %s\n", cstrPath);
+	// wprintf(L"ShaderFile Path:  %s\n", cstrPath);
 
 	CD3Drenderer::ShaderCompile(cstrPath.GetBuffer());
 
@@ -257,10 +257,9 @@ bool CD3Drenderer::Draw()
 
 	m_pDeviceContext->Draw(vertex_count, 0);
 	
+	
 
 	m_pSwapChain->Present( 1, 0 );
-
-	// Draw Do~~
 	return true;
 }
 

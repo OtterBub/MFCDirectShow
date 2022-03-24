@@ -389,9 +389,9 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	staticWindow->GetClientRect(&rect);
 
 	// Window Setting
-	//hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
-	//hr = m_pVideoRenderer->SetVideoWindow(staticWindow->GetSafeHwnd());
-	//hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
+	hr = m_pVW->put_Owner((OAHWND)staticWindow->GetSafeHwnd());
+	hr = m_pVideoRenderer->SetVideoWindow(staticWindow->GetSafeHwnd());
+	hr = m_pVW->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS);
 
 	// if (m_CurrentRes.x > rect.Width()) {
 	// 	m_scale = 0.5;
@@ -401,7 +401,7 @@ HRESULT CDShow::CameraSetWindow(HWND hViewWindow)
 	m_CurrentRes.y *= m_scale;
 	viewLeftTopPoint.x = rect.CenterPoint().x - (m_CurrentRes.x / 2);
 	viewLeftTopPoint.y = rect.CenterPoint().y - (m_CurrentRes.y / 2);
-	// hr = m_pVW->SetWindowPosition(viewLeftTopPoint.x, viewLeftTopPoint.y, m_CurrentRes.x, m_CurrentRes.y);
+	hr = m_pVW->SetWindowPosition(viewLeftTopPoint.x, viewLeftTopPoint.y, m_CurrentRes.x, m_CurrentRes.y);
 
 	wprintf(L"CameraSetWindow: %d x %d\n", m_CurrentRes.x, m_CurrentRes.y);
 	

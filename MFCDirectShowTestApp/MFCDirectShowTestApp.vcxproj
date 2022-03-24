@@ -101,7 +101,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>strmbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Quartz.lib;strmbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

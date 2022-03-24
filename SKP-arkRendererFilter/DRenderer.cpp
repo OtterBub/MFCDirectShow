@@ -103,7 +103,7 @@ HRESULT CDRenderer::DrawSample(const BYTE * pRgb32Buffer)
 			DiscardResources();
 		}
 	}
-
+	
 	return E_NOTIMPL;
 }
 

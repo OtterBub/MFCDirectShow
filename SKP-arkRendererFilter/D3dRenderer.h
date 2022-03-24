@@ -32,7 +32,7 @@ public:
 	ID3D11VertexShader* m_pVertexShader;
 	ID3D11PixelShader* m_pPixelShader;
 
-	ID3D11ShaderResourceView* m_texture;
+	ID3D11ShaderResourceView* m_pTexture;
 
 	HWND m_hWnd;
 
