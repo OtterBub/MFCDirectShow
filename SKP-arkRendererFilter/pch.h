@@ -19,5 +19,6 @@
 #include <atlstr.h>
 #include <DirectXMath.h>
 #include <DirectXTex.h>
+#include "stb_image.h"
 
 #endif //PCH_H

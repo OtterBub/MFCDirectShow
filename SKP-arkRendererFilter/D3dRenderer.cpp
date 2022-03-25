@@ -94,7 +94,8 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 #endif
 
 	ID3DBlob *pVsBlob = NULL, *pPsBlob = NULL, *pErrorBlob = NULL;
-
+	
+	// Convert to D3DCompile2 (After Version)
 	HRESULT hr = D3DCompileFromFile(
 		filename,
 		nullptr,
@@ -157,10 +158,10 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 
 	D3D11_INPUT_ELEMENT_DESC inputElementDesc[] = {
 		{"POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		/*
 		{ "COL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		*/
 	};
 
@@ -198,19 +199,29 @@ bool CD3Drenderer::Draw()
 		0.5f, -0.5f, 0.0f, // botoom-right
 		-0.5f, -0.5f, 0.0f, // botoom-left
 	};
-	UINT vertex_stride = 3 * sizeof(float);
+
+	float TextureVertexData[] = { // x, y, u, v
+			-0.5f,  0.5f, 0.f, 0.f,
+			0.5f, -0.5f, 1.f, 1.f,
+			-0.5f, -0.5f, 0.f, 1.f,
+			-0.5f,  0.5f, 0.f, 0.f,
+			0.5f,  0.5f, 1.f, 0.f,
+			0.5f, -0.5f, 1.f, 1.f
+	};
+
+	UINT vertex_stride = 4 * sizeof(float);
+	UINT vertex_count = sizeof(TextureVertexData) / vertex_stride;
 	UINT vertex_offset = 0;
-	UINT vertex_count = 3;
 
 	ID3D11Buffer *pVertexBuffer = NULL;
 	
 	// Load Mesh Data into vertex buffer
 	D3D11_BUFFER_DESC vertexBuffDesc = { 0, };
-	vertexBuffDesc.ByteWidth = sizeof(vertex_data_array);
-	vertexBuffDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBuffDesc.ByteWidth = sizeof(TextureVertexData);
+	vertexBuffDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	D3D11_SUBRESOURCE_DATA sr_data = { 0, };
-	sr_data.pSysMem = vertex_data_array;
+	D3D11_SUBRESOURCE_DATA sr_data = { TextureVertexData };
+	sr_data.pSysMem = TextureVertexData;
 	HRESULT hr = m_pDevice->CreateBuffer(
 		&vertexBuffDesc,
 		&sr_data,

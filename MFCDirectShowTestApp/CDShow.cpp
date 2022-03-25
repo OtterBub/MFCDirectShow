@@ -15,9 +15,9 @@ CDShow::CDShow()
 
 CDShow::~CDShow() 
 {
-	SAFE_RELEASE(m_pGraph);
-	SAFE_RELEASE(m_pCaptureBuilder);
-	//SAFE_RELEASE(m_pMC);
+	// SAFE_RELEASE(m_pGraph);
+	// SAFE_RELEASE(m_pCaptureBuilder);
+	// SAFE_RELEASE(m_pMC);
 	SAFE_RELEASE(m_pVW);
 	SAFE_RELEASE(m_pME);
 }
@@ -91,13 +91,13 @@ HRESULT CDShow::UnInitialize()
 {
 	HRESULT hr = S_OK;
 
-	SAFE_RELEASE(m_pGraph);
-	SAFE_RELEASE(m_pCaptureBuilder);
-	//SAFE_RELEASE(m_pMC);
+	// SAFE_RELEASE(m_pGraph);
+	// SAFE_RELEASE(m_pCaptureBuilder);
+	// SAFE_RELEASE(m_pMC);
 	SAFE_RELEASE(m_pVW);
 	SAFE_RELEASE(m_pME);
 
-	//SAFE_RELEASE(m_pVideoRenderer);
+	// SAFE_RELEASE(m_pVideoRenderer);
 
 	for each (std::pair<CString, IBaseFilter*> var in m_mapCamDevicesFilter) {
 		SAFE_RELEASE(var.second);

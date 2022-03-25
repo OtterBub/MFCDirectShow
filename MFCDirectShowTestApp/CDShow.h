@@ -83,7 +83,7 @@ private:
 	CComPtr<IBaseFilter> m_pRenderFilter;
 	CComPtr<IVideoRenderer> m_pVideoRenderer;
 
-	//IMediaControl *m_pMC;
+	// IMediaControl *m_pMC;
 	IVideoWindow *m_pVW;
 	IMediaEventEx *m_pME;
 
@@ -93,9 +93,12 @@ private:
 	float m_scale;
 	
 	// ----- For Capture Camera Device -----
-	IGraphBuilder *m_pGraph;
-	ICaptureGraphBuilder2 *m_pCaptureBuilder;
-	IBaseFilter *m_pVideoCapFilter;
+	// IGraphBuilder *m_pGraph;
+	// ICaptureGraphBuilder2 *m_pCaptureBuilder;
+	// IBaseFilter *m_pVideoCapFilter;
+	CComPtr<IGraphBuilder> m_pGraph;
+	CComPtr<ICaptureGraphBuilder2> m_pCaptureBuilder;
+	CComPtr<IBaseFilter> m_pVideoCapFilter;
 
 	// Current Capture Filter
 	IBaseFilter *m_pCurrentCaptureFilter;
@@ -107,6 +110,7 @@ private:
 	std::vector<VARIANT> m_vecCamDevicesList;
 
 	// CamDevices Filter (key is Friendly Name)
-	std::map<CString, IBaseFilter*> m_mapCamDevicesFilter;
+	// std::map<CString, IBaseFilter*> m_mapCamDevicesFilter;
+	std::map < CString, CComPtr<IBaseFilter>> m_mapCamDevicesFilter;
 
 };
