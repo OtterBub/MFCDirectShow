@@ -22,21 +22,34 @@ float4 ps_main(vs_out input) : SV_TARGET{
 	return float4(0.0, 0.0, 1.0, 1.0);
 }
 
-// ----- Pixel Shader -----
+// ---- Texture Shader ----
 
-Texture2D shaderTexture : register(t0);
-SamplerState SampleType : register(s0);
-
-struct PixelInputType
-{
-	float4 position : SV_POSITION;
-	float4 tex : TEXCOORD0;
+struct VS_Tex_Input {
+	float2 pos : POS;
+	float2 uv : TEX;
 };
 
-float4 ps_texture(PixelInputType input) : SV_TARGET
+struct VS_Tex_Output {
+	float4 pos : SV_POSITION;
+	float2 uv : TEXCOORD;
+};
+
+Texture2D mytexture : register(t0);
+SamplerState mysampler : register(s0);
+
+VS_Tex_Output vs_texture(VS_Tex_Input input)
+{
+	VS_Tex_Output output;
+	output.pos = float4(input.pos, 0.0f, 0.8f);
+	output.uv = input.uv;
+	return output;
+
+}
+
+float4 ps_texture(VS_Tex_Output input) : SV_TARGET
 {
 	float4 textureColor;
 
-	textureColor = shaderTexture.Sample(SampleType, input.tex);
+	textureColor = mytexture.Sample(mysampler, input.uv);
 	return textureColor;
 }

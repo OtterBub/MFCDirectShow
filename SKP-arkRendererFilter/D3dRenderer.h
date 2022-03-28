@@ -19,7 +19,7 @@ public:
 	bool ShaderCompile(wchar_t* filename);
 	bool LoadTexture(wchar_t* filename);
 	
-	bool Draw();
+	bool Draw(const BYTE* pRgb32Buffer);
 
 	bool Test();
 

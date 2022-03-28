@@ -38,7 +38,7 @@ HRESULT CSKParkRender::DoRenderSample(IMediaSample *pMediaSample)
 	
 	
 	case DrawSDKMode::Direct3D11:
-		m_3drenderer->Draw();
+		m_3drenderer->Draw(pBuffer);
 		return S_OK;
 	}
 

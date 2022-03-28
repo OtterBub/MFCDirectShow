@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "D3dRenderer.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 CD3Drenderer::CD3Drenderer()
 {
@@ -100,7 +102,7 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 		filename,
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"vs_main",
+		"vs_texture",
 		"vs_5_0",
 		flags,
 		0,
@@ -122,7 +124,7 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 		filename,
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"ps_main",
+		"ps_texture",
 		"ps_5_0",
 		flags,
 		0,
@@ -157,7 +159,7 @@ bool CD3Drenderer::ShaderCompile(wchar_t* filename)
 	assert(SUCCEEDED(hr));
 
 	D3D11_INPUT_ELEMENT_DESC inputElementDesc[] = {
-		{"POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"POS", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		/*
 		{ "COL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -187,7 +189,7 @@ bool CD3Drenderer::LoadTexture(wchar_t* filename)
 	return true;
 }
 
-bool CD3Drenderer::Draw()
+bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 {
 	// Draw Call MFCDirectShowTestApp.exe Test
 	// static int count = 0;
@@ -220,6 +222,7 @@ bool CD3Drenderer::Draw()
 	vertexBuffDesc.ByteWidth = sizeof(TextureVertexData);
 	vertexBuffDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	
 	D3D11_SUBRESOURCE_DATA sr_data = { TextureVertexData };
 	sr_data.pSysMem = TextureVertexData;
 	HRESULT hr = m_pDevice->CreateBuffer(
@@ -228,6 +231,56 @@ bool CD3Drenderer::Draw()
 		&pVertexBuffer
 	);
 	assert(SUCCEEDED(hr));
+
+	// Create Sampler State
+	D3D11_SAMPLER_DESC samplerDesc = {};
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.BorderColor[0] = 1.0f;
+	samplerDesc.BorderColor[1] = 1.0f;
+	samplerDesc.BorderColor[2] = 1.0f;
+	samplerDesc.BorderColor[3] = 1.0f;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+
+	ID3D11SamplerState* samplerState;
+	m_pDevice->CreateSamplerState(&samplerDesc, &samplerState);
+
+	// Load Image
+	char filename[] = "testTexture.png";
+
+	int texWidth, texHeight, texNumChannels;
+	int texForceNumChannels = 4;
+	unsigned char* fileBytes = stbi_load(filename, &texWidth, &texHeight, &texNumChannels, texForceNumChannels);
+	//unsigned char* fileBytes = (unsigned char*)pRgb32Buffer;
+
+	assert(fileBytes);
+	int texBytesPerRow = 4 * texWidth;
+
+	// Create Texture
+	D3D11_TEXTURE2D_DESC textureDesc = { 0, };
+	textureDesc.Width = texWidth;
+	textureDesc.Height = texHeight;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+	D3D11_SUBRESOURCE_DATA textureSubresourceData = {};
+	textureSubresourceData.pSysMem = pRgb32Buffer;
+	textureSubresourceData.SysMemPitch = texBytesPerRow;
+
+	ID3D11Texture2D* texture;
+	m_pDevice->CreateTexture2D(&textureDesc, &textureSubresourceData, &texture);
+
+	ID3D11ShaderResourceView* textureView;
+	m_pDevice->CreateShaderResourceView(texture, nullptr, &textureView);
+
+	free(fileBytes);
+	
 
 
 	// Clear Back Buffer
@@ -255,6 +308,7 @@ bool CD3Drenderer::Draw()
 	m_pDeviceContext->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 	);
+
 	m_pDeviceContext->IASetInputLayout(m_pInputLayout);
 	m_pDeviceContext->IASetVertexBuffers(
 		0,
@@ -263,14 +317,17 @@ bool CD3Drenderer::Draw()
 		&vertex_stride,
 		&vertex_offset
 	);
+
 	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
 	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
 
+	m_pDeviceContext->PSSetShaderResources(0, 1, &textureView);
+	m_pDeviceContext->PSSetSamplers(0, 1, &samplerState);
+
 	m_pDeviceContext->Draw(vertex_count, 0);
 	
-	
-
 	m_pSwapChain->Present( 1, 0 );
+
 	return true;
 }
 

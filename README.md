@@ -6,6 +6,9 @@ This Project for My Study.
 DirectShow Library Test.
 
 # Update History
+2022-03-28
+- Draw DirectX3D 11 (But there is an issue.)
+
 2022-03-14.2
 - Change Direct SDKMode on Dialog Window
 
@@ -117,6 +120,9 @@ DirectShow Library Test.
 - [ ] Edit View Display
 
 # Issue
+2022-03-28
+- [ ] Can Draw, But broken image.
+
 2022-03-14
 - [ ] Don't Display Preview, if Change Capture Device
 - [x] Only Main hWnd Draw (Fixed)

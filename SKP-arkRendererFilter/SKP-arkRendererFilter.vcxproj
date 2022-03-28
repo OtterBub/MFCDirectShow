@@ -205,6 +205,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SKP-arkRendererFilter.h" />
     <ClInclude Include="SKP-arkRendererFilter_Guids.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="VideoWindow.h" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +233,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\testTexture.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

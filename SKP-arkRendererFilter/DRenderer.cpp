@@ -182,7 +182,7 @@ HRESULT CDRenderer::CreateResources()
 		m_pBitmapInfo.biWidth,
 		m_pBitmapInfo.biHeight
 	};
-	return m_hWndTarget->CreateBitmap(bitmapSize, bitmapProps, &m_bitmap);;
+	return m_hWndTarget->CreateBitmap(bitmapSize, bitmapProps, &m_bitmap);
 }
 
 void CDRenderer::DiscardResources()

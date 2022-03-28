@@ -7,9 +7,6 @@
     <ClCompile Include="SKP-arkRendererFilter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Header</Filter>
-    </ClCompile>
     <ClCompile Include="DRenderer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -22,30 +19,36 @@
     <ClCompile Include="D3dRenderer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SKP-arkRendererFilter.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SKP-arkRendererFilter_Guids.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DRenderer.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="ColorSpaceConverter.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VideoWindow.h">
-      <Filter>Header</Filter>
+      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="D3dRenderer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="DRenderer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SKP-arkRendererFilter.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoWindow.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SKP-arkRendererFilter_Guids.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,10 +66,18 @@
     <Filter Include="Source">
       <UniqueIdentifier>{e4f5814e-8f0f-457c-8877-9e87a1c6b780}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{dc7ea44d-607d-4f5a-aa62-4841ac1af155}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\testTexture.png">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
