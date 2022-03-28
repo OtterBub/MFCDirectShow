@@ -38,6 +38,12 @@ HRESULT CSKParkRender::DoRenderSample(IMediaSample *pMediaSample)
 	
 	
 	case DrawSDKMode::Direct3D11:
+		if (m_mediaType.subtype != MEDIASUBTYPE_RGB32)
+		{
+			const BYTE* rgbaBuffer = m_converter->convert_to_rgb32(pBuffer);
+			m_3drenderer->Draw(rgbaBuffer);
+			return S_OK;
+		}
 		m_3drenderer->Draw(pBuffer);
 		return S_OK;
 	}

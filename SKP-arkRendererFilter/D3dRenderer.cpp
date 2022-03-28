@@ -12,6 +12,7 @@ CD3Drenderer::CD3Drenderer()
 	m_pInputLayout = NULL;
 	m_pVertexShader = NULL;
 	m_pPixelShader = NULL;
+	m_vecTextureVertexData.clear();
 }
 
 CD3Drenderer::~CD3Drenderer()
@@ -69,7 +70,8 @@ bool CD3Drenderer::init(HWND hwnd)
 	assert(SUCCEEDED(hr));
 	framebuffer->Release();
 
-	
+	CD3Drenderer::CreateVertexData();
+
 	// Load Current Folder hlsl
 	CString cstrPath;
 	TCHAR path[MAX_PATH] = { 0, };
@@ -189,6 +191,70 @@ bool CD3Drenderer::LoadTexture(wchar_t* filename)
 	return true;
 }
 
+bool CD3Drenderer::CreateVertexData()
+{
+	// Create Sampler State
+	D3D11_SAMPLER_DESC samplerDesc = {};
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.BorderColor[0] = 1.0f;
+	samplerDesc.BorderColor[1] = 1.0f;
+	samplerDesc.BorderColor[2] = 1.0f;
+	samplerDesc.BorderColor[3] = 1.0f;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+
+	//ID3D11SamplerState* samplerState;
+	m_pDevice->CreateSamplerState(&samplerDesc, &m_pSamplerState);
+
+	// Create Vertex Buffer
+	// Origin
+	/*
+	float TextureVertexData[] = { // x, y, u, v
+			-0.5f,  0.5f, 0.f, 0.f,
+			0.5f, -0.5f, 1.f, 1.f,
+			-0.5f, -0.5f, 0.f, 1.f,
+			-0.5f,  0.5f, 0.f, 0.f,
+			0.5f,  0.5f, 1.f, 0.f,
+			0.5f, -0.5f, 1.f, 1.f
+	};
+	*/
+
+	float TextureVertexData[] = { // x, y, u, v
+			-0.5f,  0.5f, 1.f, 1.f,
+			0.5f, -0.5f, 0.f, 0.f,
+			-0.5f, -0.5f, 1.f, 0.f,
+			-0.5f,  0.5f, 1.f, 1.f,
+			0.5f,  0.5f, 0.f, 1.f,
+			0.5f, -0.5f, 0.f, 0.f
+	};
+	
+	for (int i = 0; i < (4 * 6); i++) {
+		m_vecTextureVertexData.push_back(TextureVertexData[i]);
+	}
+	
+
+	ID3D11Buffer *pVertexBuffer = NULL;
+
+	// Load Mesh Data into vertex buffer
+	D3D11_BUFFER_DESC vertexBuffDesc = { 0, };
+	vertexBuffDesc.ByteWidth = sizeof(TextureVertexData);
+	vertexBuffDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA sr_data = { TextureVertexData };
+	sr_data.pSysMem = TextureVertexData;
+	HRESULT hr = m_pDevice->CreateBuffer(
+		&vertexBuffDesc,
+		&sr_data,
+		&m_pVertexBuffer
+	);
+	assert(SUCCEEDED(hr));
+
+	return true;
+}
+
 bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 {
 	// Draw Call MFCDirectShowTestApp.exe Test
@@ -215,58 +281,31 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 	UINT vertex_count = sizeof(TextureVertexData) / vertex_stride;
 	UINT vertex_offset = 0;
 
-	ID3D11Buffer *pVertexBuffer = NULL;
 	
-	// Load Mesh Data into vertex buffer
-	D3D11_BUFFER_DESC vertexBuffDesc = { 0, };
-	vertexBuffDesc.ByteWidth = sizeof(TextureVertexData);
-	vertexBuffDesc.Usage = D3D11_USAGE_IMMUTABLE;
-	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
 	
-	D3D11_SUBRESOURCE_DATA sr_data = { TextureVertexData };
-	sr_data.pSysMem = TextureVertexData;
-	HRESULT hr = m_pDevice->CreateBuffer(
-		&vertexBuffDesc,
-		&sr_data,
-		&pVertexBuffer
-	);
-	assert(SUCCEEDED(hr));
-
-	// Create Sampler State
-	D3D11_SAMPLER_DESC samplerDesc = {};
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-	samplerDesc.BorderColor[0] = 1.0f;
-	samplerDesc.BorderColor[1] = 1.0f;
-	samplerDesc.BorderColor[2] = 1.0f;
-	samplerDesc.BorderColor[3] = 1.0f;
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-
-	ID3D11SamplerState* samplerState;
-	m_pDevice->CreateSamplerState(&samplerDesc, &samplerState);
 
 	// Load Image
 	char filename[] = "testTexture.png";
 
 	int texWidth, texHeight, texNumChannels;
 	int texForceNumChannels = 4;
-	unsigned char* fileBytes = stbi_load(filename, &texWidth, &texHeight, &texNumChannels, texForceNumChannels);
+	//unsigned char* fileBytes = stbi_load(filename, &texWidth, &texHeight, &texNumChannels, texForceNumChannels);
 	//unsigned char* fileBytes = (unsigned char*)pRgb32Buffer;
 
-	assert(fileBytes);
-	int texBytesPerRow = 4 * texWidth;
+	//assert(fileBytes);
+	int texBytesPerRow = 4 * 640;
 
 	// Create Texture
 	D3D11_TEXTURE2D_DESC textureDesc = { 0, };
-	textureDesc.Width = texWidth;
-	textureDesc.Height = texHeight;
+	textureDesc.Width = 640;
+	textureDesc.Height = 480;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = 1;
 	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//textureDesc.Format = DXGI_FORMAT_R32G32_UINT;
 	textureDesc.SampleDesc.Count = 1;
-	textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
 	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
 	D3D11_SUBRESOURCE_DATA textureSubresourceData = {};
@@ -274,12 +313,15 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 	textureSubresourceData.SysMemPitch = texBytesPerRow;
 
 	ID3D11Texture2D* texture;
-	m_pDevice->CreateTexture2D(&textureDesc, &textureSubresourceData, &texture);
+	HRESULT hr = m_pDevice->CreateTexture2D(&textureDesc, &textureSubresourceData, &texture);
+
+	assert(SUCCEEDED(hr));
 
 	ID3D11ShaderResourceView* textureView;
-	m_pDevice->CreateShaderResourceView(texture, nullptr, &textureView);
+	hr = m_pDevice->CreateShaderResourceView(texture, nullptr, &textureView);
 
-	free(fileBytes);
+	assert(SUCCEEDED(hr));
+	//free(fileBytes);
 	
 
 
@@ -313,7 +355,7 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 	m_pDeviceContext->IASetVertexBuffers(
 		0,
 		1,
-		&pVertexBuffer,
+		&m_pVertexBuffer,
 		&vertex_stride,
 		&vertex_offset
 	);
@@ -322,7 +364,7 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
 
 	m_pDeviceContext->PSSetShaderResources(0, 1, &textureView);
-	m_pDeviceContext->PSSetSamplers(0, 1, &samplerState);
+	m_pDeviceContext->PSSetSamplers(0, 1, &m_pSamplerState);
 
 	m_pDeviceContext->Draw(vertex_count, 0);
 	

@@ -18,10 +18,12 @@ public:
 	bool init(HWND hwnd);
 	bool ShaderCompile(wchar_t* filename);
 	bool LoadTexture(wchar_t* filename);
+	bool CreateVertexData();
 	
 	bool Draw(const BYTE* pRgb32Buffer);
 
 	bool Test();
+
 
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pDeviceContext;
@@ -34,10 +36,16 @@ public:
 
 	ID3D11ShaderResourceView* m_pTexture;
 
+	
+	ID3D11SamplerState* m_pSamplerState;
+	ID3D11Buffer *m_pVertexBuffer;
+
 	HWND m_hWnd;
 
 protected:
 
 private:
+	float* m_TextureVertexData;
+	std::vector<float> m_vecTextureVertexData;
 
 };
