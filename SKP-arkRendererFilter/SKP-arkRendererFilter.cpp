@@ -10,6 +10,7 @@ CSKParkRender::CSKParkRender(LPUNKNOWN pUnk, HRESULT* phr)
 	m_renderer = new CDRenderer();
 	m_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 	m_SDKMode = DrawSDKMode::Direct2D;
+	m_SDKMode = DrawSDKMode::Direct3D11;
 }
 
 CSKParkRender::~CSKParkRender(void)

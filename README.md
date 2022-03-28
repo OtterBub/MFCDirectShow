@@ -7,7 +7,8 @@ DirectShow Library Test.
 
 # Update History
 2022-03-28
-- Draw DirectX3D 11 (But there is an issue.)
+- Draw DirectX3D 11 (But there is an issue. (color))
+- Draw Leak Memory Issue - Fixed
 
 2022-03-14.2
 - Change Direct SDKMode on Dialog Window
@@ -122,6 +123,7 @@ DirectShow Library Test.
 # Issue
 2022-03-28
 - [ ] Can Draw, But broken image.
+- [x] when Draw camera, leak Memory (Fixed)
 
 2022-03-14
 - [ ] Don't Display Preview, if Change Capture Device

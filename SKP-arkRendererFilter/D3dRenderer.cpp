@@ -12,6 +12,7 @@ CD3Drenderer::CD3Drenderer()
 	m_pInputLayout = NULL;
 	m_pVertexShader = NULL;
 	m_pPixelShader = NULL;
+	m_firstCreateBuffer = true;
 	m_vecTextureVertexData.clear();
 }
 
@@ -185,8 +186,9 @@ bool CD3Drenderer::LoadTexture(wchar_t* filename)
 {
 	DirectX::ScratchImage image;
 	DirectX::LoadFromWICFile(filename, DirectX::WIC_FLAGS_NONE, nullptr, image);
-	//DirectX::LoadFromWICMemory
+	//DirectX::LoadFromWICMemory(, , DirectX::WIC_FLAGS_NONE, nullptr, image);
 	DirectX::CreateShaderResourceView(m_pDevice, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &m_pTexture);
+
 
 	return true;
 }
@@ -221,8 +223,20 @@ bool CD3Drenderer::CreateVertexData()
 	};
 	*/
 
+	// Invert UV
+	/*
 	float TextureVertexData[] = { // x, y, u, v
 			-0.5f,  0.5f, 1.f, 1.f,
+			0.5f, -0.5f, 0.f, 0.f,
+			-0.5f, -0.5f, 1.f, 0.f,
+			-0.5f,  0.5f, 1.f, 1.f,
+			0.5f,  0.5f, 0.f, 1.f,
+			0.5f, -0.5f, 0.f, 0.f
+	};
+	*/
+
+	float TextureVertexData[] = { // x, y, u, v
+			-0.5f, 0.5f, 1.f, 1.f,
 			0.5f, -0.5f, 0.f, 0.f,
 			-0.5f, -0.5f, 1.f, 0.f,
 			-0.5f,  0.5f, 1.f, 1.f,
@@ -243,8 +257,8 @@ bool CD3Drenderer::CreateVertexData()
 	vertexBuffDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
-	D3D11_SUBRESOURCE_DATA sr_data = { TextureVertexData };
-	sr_data.pSysMem = TextureVertexData;
+	D3D11_SUBRESOURCE_DATA sr_data = { &m_vecTextureVertexData[0] };
+	sr_data.pSysMem = &m_vecTextureVertexData[0];
 	HRESULT hr = m_pDevice->CreateBuffer(
 		&vertexBuffDesc,
 		&sr_data,
@@ -283,45 +297,7 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 
 	
 
-	
-
-	// Load Image
-	char filename[] = "testTexture.png";
-
-	int texWidth, texHeight, texNumChannels;
-	int texForceNumChannels = 4;
-	//unsigned char* fileBytes = stbi_load(filename, &texWidth, &texHeight, &texNumChannels, texForceNumChannels);
-	//unsigned char* fileBytes = (unsigned char*)pRgb32Buffer;
-
-	//assert(fileBytes);
-	int texBytesPerRow = 4 * 640;
-
-	// Create Texture
-	D3D11_TEXTURE2D_DESC textureDesc = { 0, };
-	textureDesc.Width = 640;
-	textureDesc.Height = 480;
-	textureDesc.MipLevels = 1;
-	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//textureDesc.Format = DXGI_FORMAT_R32G32_UINT;
-	textureDesc.SampleDesc.Count = 1;
-	textureDesc.Usage = D3D11_USAGE_DEFAULT;
-	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-
-	D3D11_SUBRESOURCE_DATA textureSubresourceData = {};
-	textureSubresourceData.pSysMem = pRgb32Buffer;
-	textureSubresourceData.SysMemPitch = texBytesPerRow;
-
-	ID3D11Texture2D* texture;
-	HRESULT hr = m_pDevice->CreateTexture2D(&textureDesc, &textureSubresourceData, &texture);
-
-	assert(SUCCEEDED(hr));
-
-	ID3D11ShaderResourceView* textureView;
-	hr = m_pDevice->CreateShaderResourceView(texture, nullptr, &textureView);
-
-	assert(SUCCEEDED(hr));
-	//free(fileBytes);
+	CD3Drenderer::CreateTextureBuffer(pRgb32Buffer);
 	
 
 
@@ -363,7 +339,7 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
 	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
 
-	m_pDeviceContext->PSSetShaderResources(0, 1, &textureView);
+	m_pDeviceContext->PSSetShaderResources(0, 1, &m_pTexture);
 	m_pDeviceContext->PSSetSamplers(0, 1, &m_pSamplerState);
 
 	m_pDeviceContext->Draw(vertex_count, 0);
@@ -376,6 +352,75 @@ bool CD3Drenderer::Draw(const BYTE* pRgb32Buffer)
 bool CD3Drenderer::Test()
 {
 	
+
+
+	return true;
+}
+
+bool CD3Drenderer::CreateTextureBuffer(const BYTE * pRgb32Buffer)
+{
+	if (m_firstCreateBuffer) {
+
+		// Load Image
+		int texWidth, texHeight, texNumChannels;
+		int texForceNumChannels = 4;
+
+		char filename[] = "testTexture.png";
+		//unsigned char* fileBytes = stbi_load(filename, &texWidth, &texHeight, &texNumChannels, texForceNumChannels);
+
+		//assert(fileBytes);
+		int texBytesPerRow = 4 * 640;
+
+		// Create Texture
+		D3D11_TEXTURE2D_DESC textureDesc = { 0, };
+		textureDesc.Width = 640;
+		textureDesc.Height = 480;
+		textureDesc.MipLevels = 1;
+		textureDesc.ArraySize = 1;
+		textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//textureDesc.Format = DXGI_FORMAT_R32G32_UINT;
+		textureDesc.SampleDesc.Count = 1;
+		textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+		textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		D3D11_SUBRESOURCE_DATA textureSubresourceData = {};
+		textureSubresourceData.pSysMem = pRgb32Buffer;
+		//m_pCamByte = pRgb32Buffer;
+		//textureSubresourceData.pSysMem = nullptr;
+		textureSubresourceData.SysMemPitch = texBytesPerRow;
+
+		
+		HRESULT hr = m_pDevice->CreateTexture2D(&textureDesc, &textureSubresourceData, &m_pTexture2D);
+
+		assert(SUCCEEDED(hr));
+
+		hr = m_pDevice->CreateShaderResourceView(m_pTexture2D, nullptr, &m_pTexture);
+
+
+		assert(SUCCEEDED(hr));
+		//free(fileBytes);
+
+		m_firstCreateBuffer = false;
+	}
+
+	else {
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		
+		m_pDeviceContext->Map(m_pTexture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+		
+		D3D11_TEXTURE2D_DESC* tDesc = new(D3D11_TEXTURE2D_DESC);
+		m_pTexture2D->GetDesc(tDesc);
+		
+		//wprintf(L"Texture2D Desc Test : %d x %d\n", tDesc->Width, tDesc->Height);
+		//mappedResource.pData = (void*)pRgb32Buffer;
+		memcpy(mappedResource.pData, pRgb32Buffer, (tDesc->Width * tDesc->Height) * 4);
+
+		m_pDeviceContext->Unmap(m_pTexture2D, 0);
+
+		//m_pDeviceContext->UpdateSubresource();
+	}
 
 
 	return true;
