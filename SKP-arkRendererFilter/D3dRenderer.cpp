@@ -377,7 +377,8 @@ bool CD3Drenderer::CreateTextureBuffer(const BYTE * pRgb32Buffer)
 		textureDesc.Height = 480;
 		textureDesc.MipLevels = 1;
 		textureDesc.ArraySize = 1;
-		textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		textureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		//textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		//textureDesc.Format = DXGI_FORMAT_R32G32_UINT;
 		textureDesc.SampleDesc.Count = 1;
 		textureDesc.Usage = D3D11_USAGE_DYNAMIC;
